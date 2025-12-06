@@ -12,6 +12,7 @@
             --success: #10b981;
             --warning: #f59e0b;
             --danger: #ef4444;
+            --info: #3b82f6;
             --dark: #1a1a2e;
             --light: #f8f9fa;
         }
@@ -92,6 +93,11 @@
             color: white;
         }
         
+        .btn-info {
+            background: var(--info);
+            color: white;
+        }
+        
         .btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
@@ -112,6 +118,13 @@
             display: flex;
             align-items: center;
             gap: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
         }
         
         .stat-icon {
@@ -131,7 +144,7 @@
         
         .stat-icon.processing {
             background: rgba(59, 130, 246, 0.1);
-            color: #3b82f6;
+            color: var(--info);
         }
         
         .stat-icon.completed {
@@ -221,18 +234,13 @@
             border-color: var(--primary);
         }
         
+        .table-container {
+            overflow-x: auto;
+        }
+        
         .orders-table {
             width: 100%;
             border-collapse: collapse;
-            overflow-x: auto;
-            display: block;
-        }
-        
-        .orders-table thead,
-        .orders-table tbody {
-            display: table;
-            width: 100%;
-            table-layout: fixed;
         }
         
         .orders-table th {
@@ -241,11 +249,16 @@
             text-align: left;
             font-weight: 600;
             color: var(--dark);
+            white-space: nowrap;
         }
         
         .orders-table td {
             padding: 1rem;
             border-bottom: 1px solid var(--light);
+        }
+        
+        .orders-table tbody tr {
+            transition: all 0.3s;
         }
         
         .orders-table tbody tr:hover {
@@ -272,7 +285,7 @@
         
         .status-processing {
             background: rgba(59, 130, 246, 0.1);
-            color: #3b82f6;
+            color: var(--info);
         }
         
         .status-completed {
@@ -341,7 +354,7 @@
             background: white;
             border-radius: 20px;
             padding: 2rem;
-            max-width: 800px;
+            max-width: 900px;
             width: 90%;
             max-height: 90vh;
             overflow-y: auto;
@@ -356,10 +369,18 @@
             font-size: 1.5rem;
             cursor: pointer;
             color: #999;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s;
         }
         
         .modal-close:hover {
-            color: var(--danger);
+            background: var(--danger);
+            color: white;
         }
         
         .order-details {
@@ -375,6 +396,9 @@
             margin-bottom: 1rem;
             padding-bottom: 0.5rem;
             border-bottom: 2px solid var(--light);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
         
         .detail-grid {
@@ -496,8 +520,93 @@
         
         .empty-state i {
             font-size: 4rem;
-            color: var(--light);
+            color: #ddd;
             margin-bottom: 1rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 2px solid var(--light);
+            border-radius: 10px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary);
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            display: none;
+            align-items: center;
+            gap: 1rem;
+            z-index: 2000;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+        
+        .toast.show {
+            display: flex;
+        }
+        
+        .toast.success {
+            border-left: 4px solid var(--success);
+        }
+        
+        .toast.error {
+            border-left: 4px solid var(--danger);
+        }
+        
+        .toast.info {
+            border-left: 4px solid var(--info);
+        }
+        
+        .toast-icon {
+            font-size: 1.5rem;
+        }
+        
+        .toast.success .toast-icon {
+            color: var(--success);
+        }
+        
+        .toast.error .toast-icon {
+            color: var(--danger);
+        }
+        
+        .toast.info .toast-icon {
+            color: var(--info);
         }
         
         @media (max-width: 768px) {
@@ -518,16 +627,16 @@
                 grid-template-columns: 1fr;
             }
             
-            .orders-table {
-                font-size: 0.85rem;
-            }
-            
             .detail-grid {
                 grid-template-columns: 1fr;
             }
             
             .action-btns {
                 flex-direction: column;
+            }
+            
+            .modal-content {
+                padding: 1.5rem;
             }
         }
     </style>
@@ -544,15 +653,18 @@
                 <a href="/" class="btn btn-primary">
                     <i class="fas fa-home"></i> Main Website
                 </a>
-                <button class="btn btn-success" onclick="createNewOrder()">
+                <button class="btn btn-success" onclick="openNewOrderModal()">
                     <i class="fas fa-plus"></i> New Order
+                </button>
+                <button class="btn btn-info" onclick="exportOrders()">
+                    <i class="fas fa-download"></i> Export
                 </button>
             </div>
         </div>
 
         <!-- Stats -->
         <div class="stats-grid">
-            <div class="stat-card">
+            <div class="stat-card" onclick="filterOrders('pending')">
                 <div class="stat-icon pending">
                     <i class="fas fa-clock"></i>
                 </div>
@@ -561,7 +673,7 @@
                     <p>Pending Orders</p>
                 </div>
             </div>
-            <div class="stat-card">
+            <div class="stat-card" onclick="filterOrders('processing')">
                 <div class="stat-icon processing">
                     <i class="fas fa-spinner"></i>
                 </div>
@@ -570,7 +682,7 @@
                     <p>Processing</p>
                 </div>
             </div>
-            <div class="stat-card">
+            <div class="stat-card" onclick="filterOrders('completed')">
                 <div class="stat-icon completed">
                     <i class="fas fa-check-circle"></i>
                 </div>
@@ -579,7 +691,7 @@
                     <p>Completed</p>
                 </div>
             </div>
-            <div class="stat-card">
+            <div class="stat-card" onclick="filterOrders('cancelled')">
                 <div class="stat-icon cancelled">
                     <i class="fas fa-times-circle"></i>
                 </div>
@@ -614,25 +726,25 @@
             <div class="orders-header">
                 <h2>Orders List</h2>
                 <div class="search-box">
-                    <input type="text" id="searchInput" placeholder="Search by Order ID, Customer Name, Phone...">
+                    <input type="text" id="searchInput" placeholder="Search by Order ID, Customer Name, Phone..." onkeyup="searchOrders()">
                     <button class="btn btn-primary" onclick="searchOrders()">
                         <i class="fas fa-search"></i>
                     </button>
                 </div>
             </div>
 
-            <div style="overflow-x: auto;">
+            <div class="table-container">
                 <table class="orders-table" id="ordersTable">
                     <thead>
                         <tr>
-                            <th style="width: 10%;">Order ID</th>
-                            <th style="width: 15%;">Customer</th>
-                            <th style="width: 12%;">Phone</th>
-                            <th style="width: 20%;">Product</th>
-                            <th style="width: 10%;">Amount</th>
-                            <th style="width: 10%;">Status</th>
-                            <th style="width: 13%;">Date</th>
-                            <th style="width: 10%;">Actions</th>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Phone</th>
+                            <th>Product</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody id="ordersBody">
@@ -644,7 +756,7 @@
             <div class="empty-state" id="emptyState" style="display: none;">
                 <i class="fas fa-inbox"></i>
                 <h3>No Orders Found</h3>
-                <p>Start by creating a new order</p>
+                <p>Start by creating a new order or adjust your filters</p>
             </div>
         </div>
     </div>
@@ -652,16 +764,112 @@
     <!-- Order Details Modal -->
     <div class="modal" id="orderModal">
         <div class="modal-content">
-            <span class="modal-close" onclick="closeModal()">&times;</span>
-            <div id="orderDetailsContent">
-                <!-- Order details will be loaded here -->
+            <span class="modal-close" onclick="closeModal('orderModal')">&times;</span>
+            <div id="orderDetailsContent"></div>
+        </div>
+    </div>
+
+    <!-- New Order Modal -->
+    <div class="modal" id="newOrderModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal('newOrderModal')">&times;</span>
+            <h2>Create New Order</h2>
+            <form id="newOrderForm" onsubmit="createOrder(event)">
+                <div class="detail-grid">
+                    <div class="form-group">
+                        <label>Customer Name *</label>
+                        <input type="text" id="customerName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone Number *</label>
+                        <input type="tel" id="customerPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="customerEmail">
+                    </div>
+                    <div class="form-group">
+                        <label>Payment Method *</label>
+                        <select id="paymentMethod" required>
+                            <option value="COD">Cash on Delivery</option>
+                            <option value="UPI">UPI</option>
+                            <option value="Card">Card</option>
+                            <option value="Net Banking">Net Banking</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Address *</label>
+                    <textarea id="customerAddress" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Product Name *</label>
+                    <input type="text" id="productName" required>
+                </div>
+                <div class="detail-grid">
+                    <div class="form-group">
+                        <label>Quantity *</label>
+                        <input type="number" id="productQuantity" value="1" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Price (₹) *</label>
+                        <input type="number" id="productPrice" required>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <button type="submit" class="btn btn-success" style="flex: 1;">
+                        <i class="fas fa-check"></i> Create Order
+                    </button>
+                    <button type="button" class="btn btn-danger" onclick="closeModal('newOrderModal')">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Status Modal -->
+    <div class="modal" id="editStatusModal">
+        <div class="modal-content" style="max-width: 500px;">
+            <span class="modal-close" onclick="closeModal('editStatusModal')">&times;</span>
+            <h2>Update Order Status</h2>
+            <div style="margin-top: 2rem;">
+                <div class="form-group">
+                    <label>Order ID</label>
+                    <input type="text" id="editOrderId" readonly>
+                </div>
+                <div class="form-group">
+                    <label>New Status *</label>
+                    <select id="newStatus">
+                        <option value="pending">Pending</option>
+                        <option value="processing">Processing</option>
+                        <option value="completed">Completed</option>
+                        <option value="cancelled">Cancelled</option>
+                    </select>
+                </div>
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <button class="btn btn-success" onclick="saveStatusUpdate()" style="flex: 1;">
+                        <i class="fas fa-check"></i> Update Status
+                    </button>
+                    <button class="btn btn-danger" onclick="closeModal('editStatusModal')">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <div class="toast-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="toast-message"></div>
+    </div>
+
     <script>
-        // Sample orders data
-        let orders = [
+        // Initialize orders from localStorage or use sample data
+        let orders = JSON.parse(localStorage.getItem('rahulmobile_orders')) || [
             {
                 id: 'RM001',
                 customer: 'Amit Kumar',
@@ -677,11 +885,11 @@
                 total: 137499,
                 status: 'processing',
                 paymentMethod: 'UPI',
-                date: '2024-12-06 10:30 AM',
+                date: new Date().toLocaleString(),
                 timeline: [
-                    { status: 'Order Placed', time: '2024-12-06 10:30 AM' },
-                    { status: 'Payment Confirmed', time: '2024-12-06 10:32 AM' },
-                    { status: 'Processing', time: '2024-12-06 11:00 AM' }
+                    { status: 'Order Placed', time: new Date().toLocaleString() },
+                    { status: 'Payment Confirmed', time: new Date().toLocaleString() },
+                    { status: 'Processing', time: new Date().toLocaleString() }
                 ]
             },
             {
@@ -699,13 +907,13 @@
                 total: 175999,
                 status: 'completed',
                 paymentMethod: 'Card',
-                date: '2024-12-05 02:15 PM',
+                date: new Date(Date.now() - 86400000).toLocaleString(),
                 timeline: [
-                    { status: 'Order Placed', time: '2024-12-05 02:15 PM' },
-                    { status: 'Payment Confirmed', time: '2024-12-05 02:17 PM' },
-                    { status: 'Processing', time: '2024-12-05 03:00 PM' },
-                    { status: 'Shipped', time: '2024-12-05 05:30 PM' },
-                    { status: 'Delivered', time: '2024-12-06 11:00 AM' }
+                    { status: 'Order Placed', time: new Date(Date.now() - 86400000).toLocaleString() },
+                    { status: 'Payment Confirmed', time: new Date(Date.now() - 86400000).toLocaleString() },
+                    { status: 'Processing', time: new Date(Date.now() - 86400000).toLocaleString() },
+                    { status: 'Shipped', time: new Date(Date.now() - 43200000).toLocaleString() },
+                    { status: 'Delivered', time: new Date().toLocaleString() }
                 ]
             },
             {
@@ -724,12 +932,19 @@
                 total: 35198,
                 status: 'pending',
                 paymentMethod: 'COD',
-                date: '2024-12-06 03:45 PM',
+                date: new Date().toLocaleString(),
                 timeline: [
-                    { status: 'Order Placed', time: '2024-12-06 03:45 PM' }
+                    { status: 'Order Placed', time: new Date().toLocaleString() }
                 ]
             }
         ];
+
+        let currentFilter = 'all';
+
+        // Save orders to localStorage
+        function saveOrders() {
+            localStorage.setItem('rahulmobile_orders', JSON.stringify(orders));
+        }
 
         // Initialize
         window.addEventListener('load', () => {
@@ -738,6 +953,7 @@
         });
 
         function loadOrders(filter = 'all') {
+            currentFilter = filter;
             const tbody = document.getElementById('ordersBody');
             const emptyState = document.getElementById('emptyState');
             
@@ -745,6 +961,13 @@
             if (filter !== 'all') {
                 filteredOrders = orders.filter(order => order.status === filter);
             }
+            
+            // Update active tab
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            const activeTab = Array.from(document.querySelectorAll('.tab')).find(tab => 
+                tab.textContent.toLowerCase().includes(filter === 'all' ? 'all' : filter)
+            );
+            if (activeTab) activeTab.classList.add('active');
             
             if (filteredOrders.length === 0) {
                 tbody.innerHTML = '';
@@ -765,13 +988,13 @@
                     <td>${order.date}</td>
                     <td>
                         <div class="action-btns">
-                            <button class="btn-small btn-view" onclick="viewOrder('${order.id}')">
+                            <button class="btn-small btn-view" onclick="viewOrder('${order.id}')" title="View Details">
                                 <i class="fas fa-eye"></i>
                             </button>
-                            <button class="btn-small btn-edit" onclick="updateOrderStatus('${order.id}')">
+                            <button class="btn-small btn-edit" onclick="openEditStatusModal('${order.id}')" title="Update Status">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button class="btn-small btn-delete" onclick="deleteOrder('${order.id}')">
+                            <button class="btn-small btn-delete" onclick="deleteOrder('${order.id}')" title="Delete Order">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
@@ -793,17 +1016,22 @@
         }
 
         function filterOrders(status) {
-            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-            event.target.classList.add('active');
             loadOrders(status);
         }
 
         function searchOrders() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            if (!searchTerm) {
+                loadOrders(currentFilter);
+                return;
+            }
+            
             const filteredOrders = orders.filter(order => 
                 order.id.toLowerCase().includes(searchTerm) ||
                 order.customer.toLowerCase().includes(searchTerm) ||
-                order.phone.includes(searchTerm)
+                order.phone.includes(searchTerm) ||
+                order.products.some(p => p.name.toLowerCase().includes(searchTerm))
             );
             
             const tbody = document.getElementById('ordersBody');
@@ -830,7 +1058,7 @@
                             <button class="btn-small btn-view" onclick="viewOrder('${order.id}')">
                                 <i class="fas fa-eye"></i>
                             </button>
-                            <button class="btn-small btn-edit" onclick="updateOrderStatus('${order.id}')">
+                            <button class="btn-small btn-edit" onclick="openEditStatusModal('${order.id}')">
                                 <i class="fas fa-edit"></i>
                             </button>
                             <button class="btn-small btn-delete" onclick="deleteOrder('${order.id}')">
@@ -951,6 +1179,9 @@
                         <button class="btn btn-success" onclick="sendWhatsApp('${order.id}')">
                             <i class="fab fa-whatsapp"></i> Send to WhatsApp
                         </button>
+                        <button class="btn btn-info" onclick="openEditStatusModal('${order.id}'); closeModal('orderModal');">
+                            <i class="fas fa-edit"></i> Update Status
+                        </button>
                     </div>
                 </div>
             `;
@@ -959,42 +1190,103 @@
             document.getElementById('orderModal').classList.add('show');
         }
 
-        function closeModal() {
-            document.getElementById('orderModal').classList.remove('show');
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('show');
         }
 
-        function updateOrderStatus(orderId) {
+        function openNewOrderModal() {
+            document.getElementById('newOrderModal').classList.add('show');
+            document.getElementById('newOrderForm').reset();
+        }
+
+        function createOrder(event) {
+            event.preventDefault();
+            
+            const customerName = document.getElementById('customerName').value;
+            const customerPhone = document.getElementById('customerPhone').value;
+            const customerEmail = document.getElementById('customerEmail').value;
+            const customerAddress = document.getElementById('customerAddress').value;
+            const paymentMethod = document.getElementById('paymentMethod').value;
+            const productName = document.getElementById('productName').value;
+            const productQuantity = parseInt(document.getElementById('productQuantity').value);
+            const productPrice = parseInt(document.getElementById('productPrice').value);
+            
+            const subtotal = productPrice * productQuantity;
+            const tax = Math.round(subtotal * 0.10); // 10% tax
+            const total = subtotal + tax;
+            
+            const newOrder = {
+                id: 'RM' + String(orders.length + 1).padStart(3, '0'),
+                customer: customerName,
+                phone: customerPhone,
+                email: customerEmail,
+                address: customerAddress,
+                products: [
+                    { name: productName, quantity: productQuantity, price: productPrice }
+                ],
+                subtotal: subtotal,
+                tax: tax,
+                shipping: 0,
+                total: total,
+                status: 'pending',
+                paymentMethod: paymentMethod,
+                date: new Date().toLocaleString(),
+                timeline: [
+                    { status: 'Order Placed', time: new Date().toLocaleString() }
+                ]
+            };
+            
+            orders.unshift(newOrder);
+            saveOrders();
+            loadOrders(currentFilter);
+            updateStats();
+            closeModal('newOrderModal');
+            showToast(`Order #${newOrder.id} created successfully!`, 'success');
+        }
+
+        function openEditStatusModal(orderId) {
             const order = orders.find(o => o.id === orderId);
             if (!order) return;
             
-            const statuses = ['pending', 'processing', 'completed', 'cancelled'];
-            const currentIndex = statuses.indexOf(order.status);
-            const nextStatus = statuses[(currentIndex + 1) % statuses.length];
+            document.getElementById('editOrderId').value = '#' + order.id;
+            document.getElementById('newStatus').value = order.status;
+            document.getElementById('editStatusModal').classList.add('show');
             
-            if (confirm(`Update order #${orderId} status to ${nextStatus}?`)) {
-                order.status = nextStatus;
-                order.timeline.push({
-                    status: nextStatus.charAt(0).toUpperCase() + nextStatus.slice(1),
-                    time: new Date().toLocaleString()
-                });
-                loadOrders();
-                updateStats();
-                alert(`Order #${orderId} updated to ${nextStatus}!`);
-            }
+            // Store current order ID for update
+            document.getElementById('editStatusModal').dataset.orderId = orderId;
+        }
+
+        function saveStatusUpdate() {
+            const orderId = document.getElementById('editStatusModal').dataset.orderId;
+            const newStatus = document.getElementById('newStatus').value;
+            
+            const order = orders.find(o => o.id === orderId);
+            if (!order) return;
+            
+            const oldStatus = order.status;
+            order.status = newStatus;
+            order.timeline.push({
+                status: newStatus.charAt(0).toUpperCase() + newStatus.slice(1),
+                time: new Date().toLocaleString()
+            });
+            
+            saveOrders();
+            loadOrders(currentFilter);
+            updateStats();
+            closeModal('editStatusModal');
+            showToast(`Order #${orderId} status updated from ${oldStatus} to ${newStatus}!`, 'success');
         }
 
         function deleteOrder(orderId) {
-            if (confirm(`Are you sure you want to delete order #${orderId}?`)) {
-                orders = orders.filter(o => o.id !== orderId);
-                loadOrders();
-                updateStats();
-                alert(`Order #${orderId} deleted successfully!`);
+            if (!confirm(`Are you sure you want to delete order #${orderId}? This action cannot be undone.`)) {
+                return;
             }
-        }
-
-        function createNewOrder() {
-            alert('Redirecting to main website to create order...');
-            window.location.href = '/';
+            
+            orders = orders.filter(o => o.id !== orderId);
+            saveOrders();
+            loadOrders(currentFilter);
+            updateStats();
+            showToast(`Order #${orderId} deleted successfully!`, 'success');
         }
 
         function printInvoice(orderId) {
@@ -1008,30 +1300,38 @@
                     <title>Invoice - ${order.id}</title>
                     <style>
                         body { font-family: Arial, sans-serif; padding: 20px; }
-                        .header { text-align: center; margin-bottom: 30px; }
+                        .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #333; padding-bottom: 20px; }
+                        .logo { font-size: 24px; font-weight: bold; color: #667eea; }
                         .invoice-details { margin-bottom: 20px; }
-                        table { width: 100%; border-collapse: collapse; }
-                        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-                        th { background: #f4f4f4; }
-                        .total { font-weight: bold; font-size: 1.2em; }
+                        .invoice-details p { margin: 5px 0; }
+                        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+                        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+                        th { background: #f4f4f4; font-weight: bold; }
+                        .total { font-weight: bold; font-size: 1.2em; background: #f9f9f9; }
+                        .footer { margin-top: 30px; text-align: center; border-top: 2px solid #333; padding-top: 20px; }
                     </style>
                 </head>
                 <body>
                     <div class="header">
-                        <h1>RAHUL MOBILE</h1>
-                        <p>Dausa, Rajasthan | +91 85020 19889</p>
-                        <h2>INVOICE</h2>
+                        <div class="logo">RAHUL MOBILE</div>
+                        <p>Dausa, Rajasthan | +91 85020 19889 | info@rahulmobile.in</p>
+                        <h2>TAX INVOICE</h2>
                     </div>
                     <div class="invoice-details">
                         <p><strong>Invoice No:</strong> ${order.id}</p>
                         <p><strong>Date:</strong> ${order.date}</p>
-                        <p><strong>Customer:</strong> ${order.customer}</p>
-                        <p><strong>Phone:</strong> ${order.phone}</p>
-                        <p><strong>Address:</strong> ${order.address}</p>
+                        <p><strong>Payment Method:</strong> ${order.paymentMethod}</p>
+                        <hr>
+                        <p><strong>Bill To:</strong></p>
+                        <p>${order.customer}</p>
+                        <p>${order.phone}</p>
+                        <p>${order.email}</p>
+                        <p>${order.address}</p>
                     </div>
                     <table>
                         <thead>
                             <tr>
+                                <th>S.No</th>
                                 <th>Product</th>
                                 <th>Quantity</th>
                                 <th>Price</th>
@@ -1039,8 +1339,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            ${order.products.map(p => `
+                            ${order.products.map((p, i) => `
                                 <tr>
+                                    <td>${i + 1}</td>
                                     <td>${p.name}</td>
                                     <td>${p.quantity}</td>
                                     <td>₹${p.price.toLocaleString()}</td>
@@ -1048,26 +1349,27 @@
                                 </tr>
                             `).join('')}
                             <tr>
-                                <td colspan="3" style="text-align: right;"><strong>Subtotal:</strong></td>
-                                <td>₹${order.subtotal.toLocaleString()}</td>
+                                <td colspan="4" style="text-align: right;"><strong>Subtotal:</strong></td>
+                                <td><strong>₹${order.subtotal.toLocaleString()}</strong></td>
                             </tr>
                             <tr>
-                                <td colspan="3" style="text-align: right;"><strong>Tax (GST):</strong></td>
-                                <td>₹${order.tax.toLocaleString()}</td>
+                                <td colspan="4" style="text-align: right;"><strong>Tax (GST 10%):</strong></td>
+                                <td><strong>₹${order.tax.toLocaleString()}</strong></td>
                             </tr>
                             <tr>
-                                <td colspan="3" style="text-align: right;"><strong>Shipping:</strong></td>
-                                <td>${order.shipping === 0 ? 'FREE' : '₹' + order.shipping.toLocaleString()}</td>
+                                <td colspan="4" style="text-align: right;"><strong>Shipping:</strong></td>
+                                <td><strong>${order.shipping === 0 ? 'FREE' : '₹' + order.shipping.toLocaleString()}</strong></td>
                             </tr>
                             <tr class="total">
-                                <td colspan="3" style="text-align: right;">GRAND TOTAL:</td>
-                                <td>₹${order.total.toLocaleString()}</td>
+                                <td colspan="4" style="text-align: right; font-size: 1.2em;">GRAND TOTAL:</td>
+                                <td style="font-size: 1.2em;">₹${order.total.toLocaleString()}</td>
                             </tr>
                         </tbody>
                     </table>
-                    <div style="margin-top: 30px; text-align: center;">
-                        <p>Thank you for your business!</p>
+                    <div class="footer">
+                        <p><strong>Thank you for your business!</strong></p>
                         <p>For support: info@rahulmobile.in | +91 85020 19889</p>
+                        <p style="margin-top: 10px; font-size: 0.9em;">This is a computer generated invoice and does not require signature.</p>
                     </div>
                 </body>
                 </html>
@@ -1080,15 +1382,68 @@
             const order = orders.find(o => o.id === orderId);
             if (!order) return;
             
-            const message = `*RAHUL MOBILE - Order Confirmation*\n\nOrder ID: #${order.id}\nDate: ${order.date}\n\n*Customer Details:*\nName: ${order.customer}\nPhone: ${order.phone}\n\n*Products:*\n${order.products.map(p => `- ${p.name} (Qty: ${p.quantity}) - ₹${p.price.toLocaleString()}`).join('\n')}\n\n*Payment Summary:*\nSubtotal: ₹${order.subtotal.toLocaleString()}\nTax: ₹${order.tax.toLocaleString()}\nShipping: ${order.shipping === 0 ? 'FREE' : '₹' + order.shipping.toLocaleString()}\n*Total: ₹${order.total.toLocaleString()}*\n\nPayment Method: ${order.paymentMethod}\nStatus: ${order.status.toUpperCase()}\n\nThank you for shopping with Rahul Mobile!`;
+            const message = `*RAHUL MOBILE - Order Confirmation*\n\n📦 Order ID: #${order.id}\n📅 Date: ${order.date}\n\n*Customer Details:*\n👤 Name: ${order.customer}\n📞 Phone: ${order.phone}\n\n*Products:*\n${order.products.map(p => `📱 ${p.name}\n   Qty: ${p.quantity} | Price: ₹${p.price.toLocaleString()}`).join('\n\n')}\n\n*Payment Summary:*\n💰 Subtotal: ₹${order.subtotal.toLocaleString()}\n📊 Tax (GST): ₹${order.tax.toLocaleString()}\n🚚 Shipping: ${order.shipping === 0 ? 'FREE' : '₹' + order.shipping.toLocaleString()}\n\n*Total Amount: ₹${order.total.toLocaleString()}*\n\n💳 Payment Method: ${order.paymentMethod}\n📍 Status: ${order.status.toUpperCase()}\n\nThank you for shopping with Rahul Mobile! 🙏`;
             
             window.open(`https://wa.me/${order.phone.replace(/\s/g, '')}?text=${encodeURIComponent(message)}`, '_blank');
         }
 
-        document.getElementById('orderModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeModal();
+        function exportOrders() {
+            const csv = [
+                ['Order ID', 'Customer', 'Phone', 'Email', 'Products', 'Amount', 'Status', 'Payment Method', 'Date'],
+                ...orders.map(o => [
+                    o.id,
+                    o.customer,
+                    o.phone,
+                    o.email,
+                    o.products.map(p => `${p.name} (${p.quantity})`).join('; '),
+                    o.total,
+                    o.status,
+                    o.paymentMethod,
+                    o.date
+                ])
+            ].map(row => row.join(',')).join('\n');
+            
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `orders_${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+            
+            showToast('Orders exported successfully!', 'success');
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMessage = toast.querySelector('.toast-message');
+            const toastIcon = toast.querySelector('.toast-icon i');
+            
+            toastMessage.textContent = message;
+            toast.className = `toast ${type}`;
+            
+            if (type === 'success') {
+                toastIcon.className = 'fas fa-check-circle';
+            } else if (type === 'error') {
+                toastIcon.className = 'fas fa-exclamation-circle';
+            } else {
+                toastIcon.className = 'fas fa-info-circle';
             }
+            
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Close modal on outside click
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.classList.remove('show');
+                }
+            });
         });
     </script>
 </body>
