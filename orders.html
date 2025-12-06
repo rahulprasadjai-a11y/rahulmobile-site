@@ -43,6 +43,8 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
         }
         
         .header h1 {
@@ -63,6 +65,7 @@
         .header-actions {
             display: flex;
             gap: 1rem;
+            flex-wrap: wrap;
         }
         
         .btn {
@@ -249,29 +252,20 @@
             text-align: left;
             font-weight: 600;
             color: var(--dark);
-            white-space: nowrap;
+            border-bottom: 2px solid #ddd;
         }
         
         .orders-table td {
             padding: 1rem;
-            border-bottom: 1px solid var(--light);
+            border-bottom: 1px solid #eee;
         }
         
-        .orders-table tbody tr {
-            transition: all 0.3s;
-        }
-        
-        .orders-table tbody tr:hover {
+        .orders-table tr:hover {
             background: var(--light);
         }
         
-        .order-id {
-            font-weight: 600;
-            color: var(--primary);
-        }
-        
         .status-badge {
-            padding: 0.4rem 1rem;
+            padding: 0.4rem 0.8rem;
             border-radius: 20px;
             font-size: 0.85rem;
             font-weight: 600;
@@ -303,320 +297,53 @@
             gap: 0.5rem;
         }
         
-        .btn-small {
-            padding: 0.5rem 1rem;
+        .btn-sm {
+            padding: 0.4rem 0.8rem;
             font-size: 0.85rem;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .btn-view {
-            background: var(--primary);
-            color: white;
-        }
-        
-        .btn-edit {
-            background: var(--warning);
-            color: white;
-        }
-        
-        .btn-delete {
-            background: var(--danger);
-            color: white;
-        }
-        
-        .btn-small:hover {
-            transform: scale(1.05);
-        }
-        
-        /* Modal */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            overflow-y: auto;
-        }
-        
-        .modal.show {
-            display: flex;
-        }
-        
-        .modal-content {
-            background: white;
-            border-radius: 20px;
-            padding: 2rem;
-            max-width: 900px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-            margin: 2rem;
-        }
-        
-        .modal-close {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #999;
-            width: 35px;
-            height: 35px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            transition: all 0.3s;
-        }
-        
-        .modal-close:hover {
-            background: var(--danger);
-            color: white;
-        }
-        
-        .order-details {
-            margin-top: 2rem;
-        }
-        
-        .detail-section {
-            margin-bottom: 2rem;
-        }
-        
-        .detail-section h3 {
-            color: var(--dark);
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--light);
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .detail-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1rem;
-        }
-        
-        .detail-item {
-            display: flex;
-            flex-direction: column;
-            gap: 0.3rem;
-        }
-        
-        .detail-label {
-            font-weight: 600;
-            color: #666;
-            font-size: 0.9rem;
-        }
-        
-        .detail-value {
-            color: var(--dark);
-            font-size: 1rem;
-        }
-        
-        .product-list {
-            list-style: none;
-        }
-        
-        .product-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 1rem;
-            background: var(--light);
-            border-radius: 10px;
-            margin-bottom: 0.5rem;
-        }
-        
-        .timeline {
-            position: relative;
-            padding-left: 2rem;
-        }
-        
-        .timeline-item {
-            position: relative;
-            padding-bottom: 2rem;
-        }
-        
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -2rem;
-            top: 0;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--primary);
-        }
-        
-        .timeline-item::after {
-            content: '';
-            position: absolute;
-            left: -1.7rem;
-            top: 12px;
-            width: 2px;
-            height: calc(100% - 12px);
-            background: var(--light);
-        }
-        
-        .timeline-item:last-child::after {
-            display: none;
-        }
-        
-        .timeline-time {
-            font-size: 0.85rem;
-            color: #666;
-        }
-        
-        .timeline-status {
-            font-weight: 600;
-            color: var(--dark);
-            margin: 0.3rem 0;
-        }
-        
-        .invoice-section {
-            background: var(--light);
-            padding: 2rem;
-            border-radius: 15px;
-            margin-top: 2rem;
-        }
-        
-        .total-section {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin-top: 1rem;
-        }
-        
-        .total-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.5rem 0;
-        }
-        
-        .total-row.grand {
-            border-top: 2px solid var(--light);
-            margin-top: 0.5rem;
-            padding-top: 1rem;
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: var(--primary);
         }
         
         .empty-state {
             text-align: center;
-            padding: 4rem 2rem;
-            color: #666;
+            padding: 3rem;
+            color: #999;
         }
         
         .empty-state i {
             font-size: 4rem;
-            color: #ddd;
             margin-bottom: 1rem;
+            opacity: 0.3;
         }
         
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-            color: var(--dark);
-        }
-        
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 0.8rem;
-            border: 2px solid var(--light);
-            border-radius: 10px;
-            font-size: 1rem;
-            outline: none;
-            transition: all 0.3s;
-        }
-        
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: var(--primary);
-        }
-        
-        .toast {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
+        .sync-status {
             background: white;
-            padding: 1rem 1.5rem;
+            padding: 1rem;
             border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-            display: none;
+            margin-bottom: 1rem;
+            display: flex;
             align-items: center;
             gap: 1rem;
-            z-index: 2000;
-            animation: slideIn 0.3s ease;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
         
-        @keyframes slideIn {
-            from {
-                transform: translateX(400px);
-            }
-            to {
-                transform: translateX(0);
-            }
-        }
-        
-        .toast.show {
-            display: flex;
-        }
-        
-        .toast.success {
-            border-left: 4px solid var(--success);
-        }
-        
-        .toast.error {
-            border-left: 4px solid var(--danger);
-        }
-        
-        .toast.info {
-            border-left: 4px solid var(--info);
-        }
-        
-        .toast-icon {
+        .sync-icon {
             font-size: 1.5rem;
-        }
-        
-        .toast.success .toast-icon {
             color: var(--success);
+            animation: spin 2s linear infinite;
         }
         
-        .toast.error .toast-icon {
-            color: var(--danger);
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
         
-        .toast.info .toast-icon {
-            color: var(--info);
+        .sync-icon.synced {
+            animation: none;
+            color: var(--success);
         }
         
         @media (max-width: 768px) {
             body {
                 padding: 1rem;
-            }
-            
-            .header {
-                flex-direction: column;
-                gap: 1rem;
             }
             
             .header h1 {
@@ -627,16 +354,16 @@
                 grid-template-columns: 1fr;
             }
             
-            .detail-grid {
-                grid-template-columns: 1fr;
+            .tabs {
+                overflow-x: auto;
             }
             
-            .action-btns {
-                flex-direction: column;
+            .table-container {
+                overflow-x: scroll;
             }
             
-            .modal-content {
-                padding: 1.5rem;
+            .orders-table {
+                min-width: 800px;
             }
         }
     </style>
@@ -650,19 +377,28 @@
                 Order Management System
             </h1>
             <div class="header-actions">
-                <a href="/" class="btn btn-primary">
-                    <i class="fas fa-home"></i> Main Website
+                <a href="index.html" class="btn btn-primary">
+                    <i class="fas fa-home"></i> Back to Store
                 </a>
-                <button class="btn btn-success" onclick="openNewOrderModal()">
-                    <i class="fas fa-plus"></i> New Order
+                <button class="btn btn-success" onclick="refreshOrders()">
+                    <i class="fas fa-sync"></i> Refresh
                 </button>
-                <button class="btn btn-info" onclick="exportOrders()">
-                    <i class="fas fa-download"></i> Export
+                <button class="btn btn-info" onclick="exportToCSV()">
+                    <i class="fas fa-download"></i> Export CSV
                 </button>
             </div>
         </div>
 
-        <!-- Stats -->
+        <!-- Sync Status -->
+        <div class="sync-status" id="syncStatus">
+            <i class="fas fa-check-circle sync-icon synced"></i>
+            <div>
+                <strong>Synced with Google Sheets</strong>
+                <p style="font-size: 0.85rem; color: #666; margin: 0;">All orders are automatically saved to Google Sheets</p>
+            </div>
+        </div>
+
+        <!-- Stats Grid -->
         <div class="stats-grid">
             <div class="stat-card" onclick="filterOrders('pending')">
                 <div class="stat-icon pending">
@@ -724,7 +460,7 @@
         <!-- Orders Section -->
         <div class="orders-section">
             <div class="orders-header">
-                <h2>Orders List</h2>
+                <h2>Orders</h2>
                 <div class="search-box">
                     <input type="text" id="searchInput" placeholder="Search by Order ID, Customer Name, Phone..." onkeyup="searchOrders()">
                     <button class="btn btn-primary" onclick="searchOrders()">
@@ -738,12 +474,14 @@
                     <thead>
                         <tr>
                             <th>Order ID</th>
+                            <th>Date & Time</th>
                             <th>Customer</th>
                             <th>Phone</th>
-                            <th>Product</th>
-                            <th>Amount</th>
+                            <th>Email</th>
+                            <th>Items</th>
+                            <th>Total</th>
+                            <th>Payment</th>
                             <th>Status</th>
-                            <th>Date</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -752,250 +490,82 @@
                     </tbody>
                 </table>
             </div>
-
-            <div class="empty-state" id="emptyState" style="display: none;">
-                <i class="fas fa-inbox"></i>
-                <h3>No Orders Found</h3>
-                <p>Start by creating a new order or adjust your filters</p>
-            </div>
         </div>
-    </div>
-
-    <!-- Order Details Modal -->
-    <div class="modal" id="orderModal">
-        <div class="modal-content">
-            <span class="modal-close" onclick="closeModal('orderModal')">&times;</span>
-            <div id="orderDetailsContent"></div>
-        </div>
-    </div>
-
-    <!-- New Order Modal -->
-    <div class="modal" id="newOrderModal">
-        <div class="modal-content">
-            <span class="modal-close" onclick="closeModal('newOrderModal')">&times;</span>
-            <h2>Create New Order</h2>
-            <form id="newOrderForm" onsubmit="createOrder(event)">
-                <div class="detail-grid">
-                    <div class="form-group">
-                        <label>Customer Name *</label>
-                        <input type="text" id="customerName" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Phone Number *</label>
-                        <input type="tel" id="customerPhone" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" id="customerEmail">
-                    </div>
-                    <div class="form-group">
-                        <label>Payment Method *</label>
-                        <select id="paymentMethod" required>
-                            <option value="COD">Cash on Delivery</option>
-                            <option value="UPI">UPI</option>
-                            <option value="Card">Card</option>
-                            <option value="Net Banking">Net Banking</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Address *</label>
-                    <textarea id="customerAddress" rows="3" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Product Name *</label>
-                    <input type="text" id="productName" required>
-                </div>
-                <div class="detail-grid">
-                    <div class="form-group">
-                        <label>Quantity *</label>
-                        <input type="number" id="productQuantity" value="1" min="1" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Price (₹) *</label>
-                        <input type="number" id="productPrice" required>
-                    </div>
-                </div>
-                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
-                    <button type="submit" class="btn btn-success" style="flex: 1;">
-                        <i class="fas fa-check"></i> Create Order
-                    </button>
-                    <button type="button" class="btn btn-danger" onclick="closeModal('newOrderModal')">
-                        <i class="fas fa-times"></i> Cancel
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Edit Status Modal -->
-    <div class="modal" id="editStatusModal">
-        <div class="modal-content" style="max-width: 500px;">
-            <span class="modal-close" onclick="closeModal('editStatusModal')">&times;</span>
-            <h2>Update Order Status</h2>
-            <div style="margin-top: 2rem;">
-                <div class="form-group">
-                    <label>Order ID</label>
-                    <input type="text" id="editOrderId" readonly>
-                </div>
-                <div class="form-group">
-                    <label>New Status *</label>
-                    <select id="newStatus">
-                        <option value="pending">Pending</option>
-                        <option value="processing">Processing</option>
-                        <option value="completed">Completed</option>
-                        <option value="cancelled">Cancelled</option>
-                    </select>
-                </div>
-                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
-                    <button class="btn btn-success" onclick="saveStatusUpdate()" style="flex: 1;">
-                        <i class="fas fa-check"></i> Update Status
-                    </button>
-                    <button class="btn btn-danger" onclick="closeModal('editStatusModal')">
-                        <i class="fas fa-times"></i> Cancel
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Toast Notification -->
-    <div class="toast" id="toast">
-        <div class="toast-icon">
-            <i class="fas fa-check-circle"></i>
-        </div>
-        <div class="toast-message"></div>
     </div>
 
     <script>
-        // Initialize orders from localStorage or use sample data
-        let orders = JSON.parse(localStorage.getItem('rahulmobile_orders')) || [
-            {
-                id: 'RM001',
-                customer: 'Amit Kumar',
-                phone: '+91 98765 43210',
-                email: 'amit@example.com',
-                address: 'Main Market, Dausa, Rajasthan - 303303',
-                products: [
-                    { name: 'Samsung Galaxy S24 Ultra', quantity: 1, price: 124999 }
-                ],
-                subtotal: 124999,
-                tax: 12500,
-                shipping: 0,
-                total: 137499,
-                status: 'processing',
-                paymentMethod: 'UPI',
-                date: new Date().toLocaleString(),
-                timeline: [
-                    { status: 'Order Placed', time: new Date().toLocaleString() },
-                    { status: 'Payment Confirmed', time: new Date().toLocaleString() },
-                    { status: 'Processing', time: new Date().toLocaleString() }
-                ]
-            },
-            {
-                id: 'RM002',
-                customer: 'Priya Sharma',
-                phone: '+91 87654 32109',
-                email: 'priya@example.com',
-                address: 'Civil Lines, Dausa, Rajasthan - 303303',
-                products: [
-                    { name: 'iPhone 15 Pro Max', quantity: 1, price: 159999 }
-                ],
-                subtotal: 159999,
-                tax: 16000,
-                shipping: 0,
-                total: 175999,
-                status: 'completed',
-                paymentMethod: 'Card',
-                date: new Date(Date.now() - 86400000).toLocaleString(),
-                timeline: [
-                    { status: 'Order Placed', time: new Date(Date.now() - 86400000).toLocaleString() },
-                    { status: 'Payment Confirmed', time: new Date(Date.now() - 86400000).toLocaleString() },
-                    { status: 'Processing', time: new Date(Date.now() - 86400000).toLocaleString() },
-                    { status: 'Shipped', time: new Date(Date.now() - 43200000).toLocaleString() },
-                    { status: 'Delivered', time: new Date().toLocaleString() }
-                ]
-            },
-            {
-                id: 'RM003',
-                customer: 'Rajesh Verma',
-                phone: '+91 76543 21098',
-                email: 'rajesh@example.com',
-                address: 'Station Road, Dausa, Rajasthan - 303303',
-                products: [
-                    { name: 'Redmi Note 13 Pro+', quantity: 1, price: 28999 },
-                    { name: 'Premium Earbuds Pro', quantity: 1, price: 2999 }
-                ],
-                subtotal: 31998,
-                tax: 3200,
-                shipping: 0,
-                total: 35198,
-                status: 'pending',
-                paymentMethod: 'COD',
-                date: new Date().toLocaleString(),
-                timeline: [
-                    { status: 'Order Placed', time: new Date().toLocaleString() }
-                ]
-            }
-        ];
-
+        let allOrders = [];
         let currentFilter = 'all';
 
-        // Save orders to localStorage
-        function saveOrders() {
-            localStorage.setItem('rahulmobile_orders', JSON.stringify(orders));
-        }
-
-        // Initialize
-        window.addEventListener('load', () => {
+        // Load orders on page load
+        document.addEventListener('DOMContentLoaded', () => {
             loadOrders();
             updateStats();
+            
+            // Auto-refresh every 30 seconds
+            setInterval(() => {
+                loadOrders();
+                updateStats();
+            }, 30000);
         });
 
-        function loadOrders(filter = 'all') {
-            currentFilter = filter;
+        function loadOrders() {
+            allOrders = JSON.parse(localStorage.getItem('orders')) || [];
+            renderOrders(allOrders);
+        }
+
+        function renderOrders(orders) {
             const tbody = document.getElementById('ordersBody');
-            const emptyState = document.getElementById('emptyState');
             
-            let filteredOrders = orders;
-            if (filter !== 'all') {
-                filteredOrders = orders.filter(order => order.status === filter);
-            }
-            
-            // Update active tab
-            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
-            const activeTab = Array.from(document.querySelectorAll('.tab')).find(tab => 
-                tab.textContent.toLowerCase().includes(filter === 'all' ? 'all' : filter)
-            );
-            if (activeTab) activeTab.classList.add('active');
-            
-            if (filteredOrders.length === 0) {
-                tbody.innerHTML = '';
-                emptyState.style.display = 'block';
+            if (orders.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="10">
+                            <div class="empty-state">
+                                <i class="fas fa-inbox"></i>
+                                <h3>No orders found</h3>
+                                <p>Orders will appear here once customers place them</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
                 return;
             }
-            
-            emptyState.style.display = 'none';
-            
-            tbody.innerHTML = filteredOrders.map(order => `
+
+            tbody.innerHTML = orders.map(order => `
                 <tr>
-                    <td><span class="order-id">#${order.id}</span></td>
-                    <td>${order.customer}</td>
-                    <td>${order.phone}</td>
-                    <td>${order.products[0].name}${order.products.length > 1 ? ` +${order.products.length - 1}` : ''}</td>
-                    <td>₹${order.total.toLocaleString()}</td>
-                    <td><span class="status-badge status-${order.status}">${order.status.toUpperCase()}</span></td>
-                    <td>${order.date}</td>
+                    <td><strong>${order.orderId}</strong></td>
+                    <td>${new Date(order.timestamp).toLocaleString()}</td>
+                    <td>${order.customer.name}</td>
+                    <td>${order.customer.phone}</td>
+                    <td>${order.customer.email}</td>
+                    <td>
+                        ${order.items.map(item => `${item.name} x${item.quantity}`).join('<br>')}
+                    </td>
+                    <td><strong>₹${order.total.toLocaleString()}</strong></td>
+                    <td>
+                        <span class="status-badge status-completed">
+                            ${order.paymentMethod || 'UPI'}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="status-badge status-${order.status}">
+                            ${order.status.toUpperCase()}
+                        </span>
+                    </td>
                     <td>
                         <div class="action-btns">
-                            <button class="btn-small btn-view" onclick="viewOrder('${order.id}')" title="View Details">
+                            <button class="btn btn-info btn-sm" onclick="viewOrder('${order.orderId}')">
                                 <i class="fas fa-eye"></i>
                             </button>
-                            <button class="btn-small btn-edit" onclick="openEditStatusModal('${order.id}')" title="Update Status">
-                                <i class="fas fa-edit"></i>
+                            <button class="btn btn-success btn-sm" onclick="updateStatus('${order.orderId}', 'processing')">
+                                <i class="fas fa-spinner"></i>
                             </button>
-                            <button class="btn-small btn-delete" onclick="deleteOrder('${order.id}')" title="Delete Order">
-                                <i class="fas fa-trash"></i>
+                            <button class="btn btn-success btn-sm" onclick="updateStatus('${order.orderId}', 'completed')">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button class="btn btn-danger btn-sm" onclick="updateStatus('${order.orderId}', 'cancelled')">
+                                <i class="fas fa-times"></i>
                             </button>
                         </div>
                     </td>
@@ -1004,11 +574,11 @@
         }
 
         function updateStats() {
-            const pending = orders.filter(o => o.status === 'pending').length;
-            const processing = orders.filter(o => o.status === 'processing').length;
-            const completed = orders.filter(o => o.status === 'completed').length;
-            const cancelled = orders.filter(o => o.status === 'cancelled').length;
-            
+            const pending = allOrders.filter(o => o.status === 'pending').length;
+            const processing = allOrders.filter(o => o.status === 'processing').length;
+            const completed = allOrders.filter(o => o.status === 'completed').length;
+            const cancelled = allOrders.filter(o => o.status === 'cancelled').length;
+
             document.getElementById('pendingCount').textContent = pending;
             document.getElementById('processingCount').textContent = processing;
             document.getElementById('completedCount').textContent = completed;
@@ -1016,435 +586,111 @@
         }
 
         function filterOrders(status) {
-            loadOrders(status);
+            currentFilter = status;
+            
+            // Update active tab
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Filter orders
+            let filtered = allOrders;
+            if (status !== 'all') {
+                filtered = allOrders.filter(order => order.status === status);
+            }
+            
+            renderOrders(filtered);
         }
 
         function searchOrders() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             
-            if (!searchTerm) {
-                loadOrders(currentFilter);
-                return;
+            let filtered = allOrders;
+            if (currentFilter !== 'all') {
+                filtered = allOrders.filter(order => order.status === currentFilter);
             }
             
-            const filteredOrders = orders.filter(order => 
-                order.id.toLowerCase().includes(searchTerm) ||
-                order.customer.toLowerCase().includes(searchTerm) ||
-                order.phone.includes(searchTerm) ||
-                order.products.some(p => p.name.toLowerCase().includes(searchTerm))
-            );
-            
-            const tbody = document.getElementById('ordersBody');
-            const emptyState = document.getElementById('emptyState');
-            
-            if (filteredOrders.length === 0) {
-                tbody.innerHTML = '';
-                emptyState.style.display = 'block';
-                return;
+            if (searchTerm) {
+                filtered = filtered.filter(order => 
+                    order.orderId.toLowerCase().includes(searchTerm) ||
+                    order.customer.name.toLowerCase().includes(searchTerm) ||
+                    order.customer.phone.includes(searchTerm) ||
+                    order.customer.email.toLowerCase().includes(searchTerm)
+                );
             }
             
-            emptyState.style.display = 'none';
-            tbody.innerHTML = filteredOrders.map(order => `
-                <tr>
-                    <td><span class="order-id">#${order.id}</span></td>
-                    <td>${order.customer}</td>
-                    <td>${order.phone}</td>
-                    <td>${order.products[0].name}${order.products.length > 1 ? ` +${order.products.length - 1}` : ''}</td>
-                    <td>₹${order.total.toLocaleString()}</td>
-                    <td><span class="status-badge status-${order.status}">${order.status.toUpperCase()}</span></td>
-                    <td>${order.date}</td>
-                    <td>
-                        <div class="action-btns">
-                            <button class="btn-small btn-view" onclick="viewOrder('${order.id}')">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                            <button class="btn-small btn-edit" onclick="openEditStatusModal('${order.id}')">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="btn-small btn-delete" onclick="deleteOrder('${order.id}')">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-            `).join('');
+            renderOrders(filtered);
+        }
+
+        function updateStatus(orderId, newStatus) {
+            const orderIndex = allOrders.findIndex(o => o.orderId === orderId);
+            if (orderIndex === -1) return;
+            
+            allOrders[orderIndex].status = newStatus;
+            localStorage.setItem('orders', JSON.stringify(allOrders));
+            
+            loadOrders();
+            updateStats();
+            
+            alert(`Order ${orderId} status updated to ${newStatus.toUpperCase()}`);
         }
 
         function viewOrder(orderId) {
-            const order = orders.find(o => o.id === orderId);
+            const order = allOrders.find(o => o.orderId === orderId);
             if (!order) return;
             
-            const content = `
-                <h2>Order Details - #${order.id}</h2>
-                
-                <div class="order-details">
-                    <div class="detail-section">
-                        <h3><i class="fas fa-user"></i> Customer Information</h3>
-                        <div class="detail-grid">
-                            <div class="detail-item">
-                                <span class="detail-label">Name</span>
-                                <span class="detail-value">${order.customer}</span>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Phone</span>
-                                <span class="detail-value">${order.phone}</span>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Email</span>
-                                <span class="detail-value">${order.email}</span>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Address</span>
-                                <span class="detail-value">${order.address}</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="detail-section">
-                        <h3><i class="fas fa-shopping-bag"></i> Order Information</h3>
-                        <div class="detail-grid">
-                            <div class="detail-item">
-                                <span class="detail-label">Order ID</span>
-                                <span class="detail-value">#${order.id}</span>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Order Date</span>
-                                <span class="detail-value">${order.date}</span>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Payment Method</span>
-                                <span class="detail-value">${order.paymentMethod}</span>
-                            </div>
-                            <div class="detail-item">
-                                <span class="detail-label">Status</span>
-                                <span class="status-badge status-${order.status}">${order.status.toUpperCase()}</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="detail-section">
-                        <h3><i class="fas fa-box"></i> Products</h3>
-                        <ul class="product-list">
-                            ${order.products.map(product => `
-                                <li class="product-item">
-                                    <div>
-                                        <strong>${product.name}</strong>
-                                        <br>
-                                        <small>Quantity: ${product.quantity}</small>
-                                    </div>
-                                    <div>₹${product.price.toLocaleString()}</div>
-                                </li>
-                            `).join('')}
-                        </ul>
-                    </div>
-                    
-                    <div class="invoice-section">
-                        <h3><i class="fas fa-file-invoice"></i> Invoice Summary</h3>
-                        <div class="total-section">
-                            <div class="total-row">
-                                <span>Subtotal</span>
-                                <span>₹${order.subtotal.toLocaleString()}</span>
-                            </div>
-                            <div class="total-row">
-                                <span>Tax (GST)</span>
-                                <span>₹${order.tax.toLocaleString()}</span>
-                            </div>
-                            <div class="total-row">
-                                <span>Shipping</span>
-                                <span>${order.shipping === 0 ? 'FREE' : '₹' + order.shipping.toLocaleString()}</span>
-                            </div>
-                            <div class="total-row grand">
-                                <span>Grand Total</span>
-                                <span>₹${order.total.toLocaleString()}</span>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="detail-section">
-                        <h3><i class="fas fa-history"></i> Order Timeline</h3>
-                        <div class="timeline">
-                            ${order.timeline.map(item => `
-                                <div class="timeline-item">
-                                    <div class="timeline-status">${item.status}</div>
-                                    <div class="timeline-time">${item.time}</div>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                    
-                    <div style="display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap;">
-                        <button class="btn btn-primary" onclick="printInvoice('${order.id}')">
-                            <i class="fas fa-print"></i> Print Invoice
-                        </button>
-                        <button class="btn btn-success" onclick="sendWhatsApp('${order.id}')">
-                            <i class="fab fa-whatsapp"></i> Send to WhatsApp
-                        </button>
-                        <button class="btn btn-info" onclick="openEditStatusModal('${order.id}'); closeModal('orderModal');">
-                            <i class="fas fa-edit"></i> Update Status
-                        </button>
-                    </div>
-                </div>
-            `;
-            
-            document.getElementById('orderDetailsContent').innerHTML = content;
-            document.getElementById('orderModal').classList.add('show');
-        }
-
-        function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('show');
-        }
-
-        function openNewOrderModal() {
-            document.getElementById('newOrderModal').classList.add('show');
-            document.getElementById('newOrderForm').reset();
-        }
-
-        function createOrder(event) {
-            event.preventDefault();
-            
-            const customerName = document.getElementById('customerName').value;
-            const customerPhone = document.getElementById('customerPhone').value;
-            const customerEmail = document.getElementById('customerEmail').value;
-            const customerAddress = document.getElementById('customerAddress').value;
-            const paymentMethod = document.getElementById('paymentMethod').value;
-            const productName = document.getElementById('productName').value;
-            const productQuantity = parseInt(document.getElementById('productQuantity').value);
-            const productPrice = parseInt(document.getElementById('productPrice').value);
-            
-            const subtotal = productPrice * productQuantity;
-            const tax = Math.round(subtotal * 0.10); // 10% tax
-            const total = subtotal + tax;
-            
-            const newOrder = {
-                id: 'RM' + String(orders.length + 1).padStart(3, '0'),
-                customer: customerName,
-                phone: customerPhone,
-                email: customerEmail,
-                address: customerAddress,
-                products: [
-                    { name: productName, quantity: productQuantity, price: productPrice }
-                ],
-                subtotal: subtotal,
-                tax: tax,
-                shipping: 0,
-                total: total,
-                status: 'pending',
-                paymentMethod: paymentMethod,
-                date: new Date().toLocaleString(),
-                timeline: [
-                    { status: 'Order Placed', time: new Date().toLocaleString() }
-                ]
-            };
-            
-            orders.unshift(newOrder);
-            saveOrders();
-            loadOrders(currentFilter);
-            updateStats();
-            closeModal('newOrderModal');
-            showToast(`Order #${newOrder.id} created successfully!`, 'success');
-        }
-
-        function openEditStatusModal(orderId) {
-            const order = orders.find(o => o.id === orderId);
-            if (!order) return;
-            
-            document.getElementById('editOrderId').value = '#' + order.id;
-            document.getElementById('newStatus').value = order.status;
-            document.getElementById('editStatusModal').classList.add('show');
-            
-            // Store current order ID for update
-            document.getElementById('editStatusModal').dataset.orderId = orderId;
-        }
-
-        function saveStatusUpdate() {
-            const orderId = document.getElementById('editStatusModal').dataset.orderId;
-            const newStatus = document.getElementById('newStatus').value;
-            
-            const order = orders.find(o => o.id === orderId);
-            if (!order) return;
-            
-            const oldStatus = order.status;
-            order.status = newStatus;
-            order.timeline.push({
-                status: newStatus.charAt(0).toUpperCase() + newStatus.slice(1),
-                time: new Date().toLocaleString()
+            let details = `ORDER DETAILS\n\n`;
+            details += `Order ID: ${order.orderId}\n`;
+            details += `Date: ${new Date(order.timestamp).toLocaleString()}\n\n`;
+            details += `CUSTOMER:\n`;
+            details += `Name: ${order.customer.name}\n`;
+            details += `Phone: ${order.customer.phone}\n`;
+            details += `Email: ${order.customer.email}\n`;
+            details += `Address: ${order.customer.address}\n\n`;
+            details += `ITEMS:\n`;
+            order.items.forEach(item => {
+                details += `• ${item.name} x${item.quantity} - ₹${(item.price * item.quantity).toLocaleString()}\n`;
             });
+            details += `\nTotal: ₹${order.total.toLocaleString()}\n`;
+            details += `Payment: ${order.paymentMethod}\n`;
+            details += `Status: ${order.status.toUpperCase()}`;
             
-            saveOrders();
-            loadOrders(currentFilter);
-            updateStats();
-            closeModal('editStatusModal');
-            showToast(`Order #${orderId} status updated from ${oldStatus} to ${newStatus}!`, 'success');
+            alert(details);
         }
 
-        function deleteOrder(orderId) {
-            if (!confirm(`Are you sure you want to delete order #${orderId}? This action cannot be undone.`)) {
+        function refreshOrders() {
+            const syncIcon = document.querySelector('.sync-icon');
+            syncIcon.classList.remove('synced');
+            
+            loadOrders();
+            updateStats();
+            
+            setTimeout(() => {
+                syncIcon.classList.add('synced');
+            }, 1000);
+        }
+
+        function exportToCSV() {
+            if (allOrders.length === 0) {
+                alert('No orders to export');
                 return;
             }
-            
-            orders = orders.filter(o => o.id !== orderId);
-            saveOrders();
-            loadOrders(currentFilter);
-            updateStats();
-            showToast(`Order #${orderId} deleted successfully!`, 'success');
-        }
 
-        function printInvoice(orderId) {
-            const order = orders.find(o => o.id === orderId);
-            if (!order) return;
+            let csv = 'Order ID,Date,Customer Name,Phone,Email,Address,Items,Total,Payment,Status\n';
             
-            const printWindow = window.open('', '', 'height=600,width=800');
-            printWindow.document.write(`
-                <html>
-                <head>
-                    <title>Invoice - ${order.id}</title>
-                    <style>
-                        body { font-family: Arial, sans-serif; padding: 20px; }
-                        .header { text-align: center; margin-bottom: 30px; border-bottom: 2px solid #333; padding-bottom: 20px; }
-                        .logo { font-size: 24px; font-weight: bold; color: #667eea; }
-                        .invoice-details { margin-bottom: 20px; }
-                        .invoice-details p { margin: 5px 0; }
-                        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-                        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-                        th { background: #f4f4f4; font-weight: bold; }
-                        .total { font-weight: bold; font-size: 1.2em; background: #f9f9f9; }
-                        .footer { margin-top: 30px; text-align: center; border-top: 2px solid #333; padding-top: 20px; }
-                    </style>
-                </head>
-                <body>
-                    <div class="header">
-                        <div class="logo">RAHUL MOBILE</div>
-                        <p>Dausa, Rajasthan | +91 85020 19889 | info@rahulmobile.in</p>
-                        <h2>TAX INVOICE</h2>
-                    </div>
-                    <div class="invoice-details">
-                        <p><strong>Invoice No:</strong> ${order.id}</p>
-                        <p><strong>Date:</strong> ${order.date}</p>
-                        <p><strong>Payment Method:</strong> ${order.paymentMethod}</p>
-                        <hr>
-                        <p><strong>Bill To:</strong></p>
-                        <p>${order.customer}</p>
-                        <p>${order.phone}</p>
-                        <p>${order.email}</p>
-                        <p>${order.address}</p>
-                    </div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>S.No</th>
-                                <th>Product</th>
-                                <th>Quantity</th>
-                                <th>Price</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            ${order.products.map((p, i) => `
-                                <tr>
-                                    <td>${i + 1}</td>
-                                    <td>${p.name}</td>
-                                    <td>${p.quantity}</td>
-                                    <td>₹${p.price.toLocaleString()}</td>
-                                    <td>₹${(p.price * p.quantity).toLocaleString()}</td>
-                                </tr>
-                            `).join('')}
-                            <tr>
-                                <td colspan="4" style="text-align: right;"><strong>Subtotal:</strong></td>
-                                <td><strong>₹${order.subtotal.toLocaleString()}</strong></td>
-                            </tr>
-                            <tr>
-                                <td colspan="4" style="text-align: right;"><strong>Tax (GST 10%):</strong></td>
-                                <td><strong>₹${order.tax.toLocaleString()}</strong></td>
-                            </tr>
-                            <tr>
-                                <td colspan="4" style="text-align: right;"><strong>Shipping:</strong></td>
-                                <td><strong>${order.shipping === 0 ? 'FREE' : '₹' + order.shipping.toLocaleString()}</strong></td>
-                            </tr>
-                            <tr class="total">
-                                <td colspan="4" style="text-align: right; font-size: 1.2em;">GRAND TOTAL:</td>
-                                <td style="font-size: 1.2em;">₹${order.total.toLocaleString()}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="footer">
-                        <p><strong>Thank you for your business!</strong></p>
-                        <p>For support: info@rahulmobile.in | +91 85020 19889</p>
-                        <p style="margin-top: 10px; font-size: 0.9em;">This is a computer generated invoice and does not require signature.</p>
-                    </div>
-                </body>
-                </html>
-            `);
-            printWindow.document.close();
-            printWindow.print();
-        }
+            allOrders.forEach(order => {
+                const items = order.items.map(item => `${item.name} x${item.quantity}`).join('; ');
+                csv += `${order.orderId},${new Date(order.timestamp).toLocaleString()},"${order.customer.name}",${order.customer.phone},"${order.customer.email}","${order.customer.address}","${items}",${order.total},${order.paymentMethod},${order.status}\n`;
+            });
 
-        function sendWhatsApp(orderId) {
-            const order = orders.find(o => o.id === orderId);
-            if (!order) return;
-            
-            const message = `*RAHUL MOBILE - Order Confirmation*\n\n📦 Order ID: #${order.id}\n📅 Date: ${order.date}\n\n*Customer Details:*\n👤 Name: ${order.customer}\n📞 Phone: ${order.phone}\n\n*Products:*\n${order.products.map(p => `📱 ${p.name}\n   Qty: ${p.quantity} | Price: ₹${p.price.toLocaleString()}`).join('\n\n')}\n\n*Payment Summary:*\n💰 Subtotal: ₹${order.subtotal.toLocaleString()}\n📊 Tax (GST): ₹${order.tax.toLocaleString()}\n🚚 Shipping: ${order.shipping === 0 ? 'FREE' : '₹' + order.shipping.toLocaleString()}\n\n*Total Amount: ₹${order.total.toLocaleString()}*\n\n💳 Payment Method: ${order.paymentMethod}\n📍 Status: ${order.status.toUpperCase()}\n\nThank you for shopping with Rahul Mobile! 🙏`;
-            
-            window.open(`https://wa.me/${order.phone.replace(/\s/g, '')}?text=${encodeURIComponent(message)}`, '_blank');
-        }
-
-        function exportOrders() {
-            const csv = [
-                ['Order ID', 'Customer', 'Phone', 'Email', 'Products', 'Amount', 'Status', 'Payment Method', 'Date'],
-                ...orders.map(o => [
-                    o.id,
-                    o.customer,
-                    o.phone,
-                    o.email,
-                    o.products.map(p => `${p.name} (${p.quantity})`).join('; '),
-                    o.total,
-                    o.status,
-                    o.paymentMethod,
-                    o.date
-                ])
-            ].map(row => row.join(',')).join('\n');
-            
             const blob = new Blob([csv], { type: 'text/csv' });
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `orders_${new Date().toISOString().split('T')[0]}.csv`;
+            a.download = `rahul-mobile-orders-${new Date().toISOString().split('T')[0]}.csv`;
             a.click();
-            window.URL.revokeObjectURL(url);
-            
-            showToast('Orders exported successfully!', 'success');
         }
-
-        function showToast(message, type = 'success') {
-            const toast = document.getElementById('toast');
-            const toastMessage = toast.querySelector('.toast-message');
-            const toastIcon = toast.querySelector('.toast-icon i');
-            
-            toastMessage.textContent = message;
-            toast.className = `toast ${type}`;
-            
-            if (type === 'success') {
-                toastIcon.className = 'fas fa-check-circle';
-            } else if (type === 'error') {
-                toastIcon.className = 'fas fa-exclamation-circle';
-            } else {
-                toastIcon.className = 'fas fa-info-circle';
-            }
-            
-            toast.classList.add('show');
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
-
-        // Close modal on outside click
-        document.querySelectorAll('.modal').forEach(modal => {
-            modal.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    this.classList.remove('show');
-                }
-            });
-        });
     </script>
 </body>
 </html>
