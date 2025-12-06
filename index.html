@@ -639,7 +639,7 @@
             border-left: 4px solid var(--success);
         }
         
-        /* Login Modal */
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -651,6 +651,7 @@
             z-index: 2000;
             align-items: center;
             justify-content: center;
+            overflow-y: auto;
         }
         
         .modal.show {
@@ -661,9 +662,11 @@
             background: white;
             padding: 2rem;
             border-radius: 15px;
-            max-width: 400px;
+            max-width: 500px;
             width: 90%;
             position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
         }
         
         .modal-close {
@@ -695,16 +698,17 @@
             font-weight: 500;
         }
         
-        .form-group input {
+        .form-group input, .form-group textarea {
             width: 100%;
             padding: 0.7rem;
             border: 2px solid var(--light);
             border-radius: 8px;
             font-size: 0.9rem;
             transition: border-color 0.3s;
+            font-family: inherit;
         }
         
-        .form-group input:focus {
+        .form-group input:focus, .form-group textarea:focus {
             outline: none;
             border-color: var(--primary);
         }
@@ -725,6 +729,205 @@
         .btn-submit:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        /* Cart Modal */
+        .cart-items {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+        }
+        
+        .cart-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--light);
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            align-items: center;
+        }
+        
+        .cart-item-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+        
+        .cart-item-info {
+            flex: 1;
+        }
+        
+        .cart-item-name {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+        
+        .cart-item-price {
+            color: var(--primary);
+            font-weight: 700;
+        }
+        
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .qty-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        
+        .cart-item-remove {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 0.5rem 0.8rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+        
+        .cart-summary {
+            background: var(--light);
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+        
+        .cart-summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+        
+        .cart-total {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+        
+        .checkout-options {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .btn-checkout {
+            flex: 1;
+            background: var(--success);
+            color: white;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-checkout:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+        }
+        
+        .btn-whatsapp {
+            flex: 1;
+            background: #25D366;
+            color: white;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-whatsapp:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
+        }
+        
+        /* UPI Payment Section */
+        .upi-payment {
+            text-align: center;
+            padding: 1rem;
+        }
+        
+        .upi-qr {
+            width: 250px;
+            height: 250px;
+            margin: 1rem auto;
+            border: 3px solid var(--primary);
+            border-radius: 15px;
+            padding: 1rem;
+            background: white;
+        }
+        
+        .upi-qr img {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .upi-id {
+            background: var(--light);
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .upi-id i {
+            color: var(--primary);
+            margin-right: 0.5rem;
+        }
+        
+        .payment-instructions {
+            background: #fff3cd;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            text-align: left;
+            border-left: 4px solid var(--warning);
+        }
+        
+        .payment-instructions h4 {
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .payment-instructions ol {
+            margin-left: 1.2rem;
+            font-size: 0.9rem;
+        }
+        
+        .payment-instructions li {
+            margin-bottom: 0.3rem;
+        }
+        
+        .btn-payment-done {
+            background: var(--success);
+            color: white;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 1rem;
+        }
+        
+        .btn-payment-done:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
         }
         
         /* Responsive */
@@ -834,6 +1037,15 @@
                 grid-template-columns: 1fr;
                 gap: 1.5rem;
             }
+            
+            .upi-qr {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .checkout-options {
+                flex-direction: column;
+            }
         }
         
         @media (max-width: 480px) {
@@ -905,7 +1117,7 @@
                     <i class="fas fa-shopping-cart"></i>
                     <span class="cart-count" id="cartCount">0</span>
                 </div>
-                <button class="btn-login" onclick="openLoginModal()">
+                <button class="btn-login" id="loginBtn" onclick="openLoginModal()">
                     <i class="fas fa-user"></i> Login
                 </button>
             </div>
@@ -1102,6 +1314,94 @@
         </div>
     </div>
 
+    <!-- Cart Modal -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeCartModal()">&times;</span>
+            <h2><i class="fas fa-shopping-cart"></i> Your Cart</h2>
+            <div class="cart-items" id="cartItems">
+                <!-- Cart items will be loaded here -->
+            </div>
+            <div class="cart-summary" id="cartSummary">
+                <!-- Cart summary will be loaded here -->
+            </div>
+            <div class="checkout-options">
+                <button class="btn-checkout" onclick="proceedToCheckout()">
+                    <i class="fas fa-credit-card"></i> Pay with UPI
+                </button>
+                <button class="btn-whatsapp" onclick="orderViaWhatsApp()">
+                    <i class="fab fa-whatsapp"></i> Order via WhatsApp
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal" id="checkoutModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeCheckoutModal()">&times;</span>
+            <h2><i class="fas fa-user"></i> Delivery Details</h2>
+            <form onsubmit="showUPIPayment(event)">
+                <div class="form-group">
+                    <label>Full Name *</label>
+                    <input type="text" id="customerName" required placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label>Phone Number *</label>
+                    <input type="tel" id="customerPhone" required placeholder="Enter phone number" pattern="[0-9]{10}">
+                </div>
+                <div class="form-group">
+                    <label>Email (Optional)</label>
+                    <input type="email" id="customerEmail" placeholder="Enter email">
+                </div>
+                <div class="form-group">
+                    <label>Delivery Address *</label>
+                    <textarea id="customerAddress" required placeholder="Enter complete address" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-arrow-right"></i> Proceed to Payment
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- UPI Payment Modal -->
+    <div class="modal" id="upiModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeUPIModal()">&times;</span>
+            <h2><i class="fas fa-qrcode"></i> UPI Payment</h2>
+            <div class="upi-payment">
+                <div class="cart-summary" id="upiSummary">
+                    <!-- Order summary will be shown here -->
+                </div>
+                
+                <div class="upi-qr">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=upi://pay?pa=rahulmobile@paytm&pn=Rahul%20Mobile&cu=INR" alt="UPI QR Code">
+                </div>
+                
+                <div class="upi-id">
+                    <i class="fas fa-mobile-alt"></i>
+                    <strong>UPI ID:</strong> rahulmobile@paytm
+                </div>
+                
+                <div class="payment-instructions">
+                    <h4><i class="fas fa-info-circle"></i> Payment Instructions:</h4>
+                    <ol>
+                        <li>Open any UPI app (PhonePe, Google Pay, Paytm, etc.)</li>
+                        <li>Scan the QR code above OR use UPI ID</li>
+                        <li>Enter the exact amount shown</li>
+                        <li>Complete the payment</li>
+                        <li>Click "Payment Done" button below</li>
+                    </ol>
+                </div>
+                
+                <button class="btn-payment-done" onclick="confirmPayment()">
+                    <i class="fas fa-check-circle"></i> Payment Done
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Product Database
         const products = [
@@ -1179,19 +1479,29 @@
             }
         ];
 
-        // Cart and Wishlist Storage
+        // Storage
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
         let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
         let currentFilter = 'all';
+        let currentOrder = null;
 
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             renderProducts();
             updateCartCount();
+            checkUserLogin();
             setTimeout(() => {
                 showToast('Welcome to Rahul Mobile! 🎉 Shop the best deals!', 'success');
             }, 1000);
         });
+
+        // Check if user is logged in
+        function checkUserLogin() {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (user) {
+                document.getElementById('loginBtn').innerHTML = `<i class="fas fa-user-check"></i> ${user.name || user.email.split('@')[0]}`;
+            }
+        }
 
         // Render Products
         function renderProducts(filter = 'all', searchTerm = '') {
@@ -1200,12 +1510,10 @@
             
             let filteredProducts = products;
             
-            // Filter by category
             if (filter !== 'all') {
                 filteredProducts = products.filter(p => p.category === filter);
             }
             
-            // Filter by search
             if (searchTerm) {
                 filteredProducts = filteredProducts.filter(p => 
                     p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -1254,7 +1562,6 @@
             }
         }
 
-        // Generate Stars
         function generateStars(rating) {
             let stars = '';
             const fullStars = Math.floor(rating);
@@ -1273,7 +1580,6 @@
             return stars;
         }
 
-        // Add to Cart
         function addToCart(productId) {
             const product = products.find(p => p.id === productId);
             if (!product) return;
@@ -1288,42 +1594,231 @@
             localStorage.setItem('cart', JSON.stringify(cart));
             updateCartCount();
             showToast(`${product.name} added to cart! 🛒`, 'success');
-            
-            // Send WhatsApp message
-            setTimeout(() => {
-                const message = `Hi! I'm interested in buying: ${product.name}`;
-                window.open(`https://wa.me/918502019889?text=${encodeURIComponent(message)}`, '_blank');
-            }, 1500);
         }
 
-        // Update Cart Count
         function updateCartCount() {
             const count = cart.reduce((sum, item) => sum + item.quantity, 0);
             document.getElementById('cartCount').textContent = count;
         }
 
-        // View Cart
         function viewCart() {
             if (cart.length === 0) {
                 showToast('Your cart is empty! 🛒', 'success');
                 return;
             }
             
-            let cartMessage = 'Your Cart:\n\n';
+            renderCartItems();
+            document.getElementById('cartModal').classList.add('show');
+        }
+
+        function renderCartItems() {
+            const cartItemsDiv = document.getElementById('cartItems');
+            const cartSummaryDiv = document.getElementById('cartSummary');
+            
+            let itemsHTML = '';
+            let subtotal = 0;
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                
+                itemsHTML += `
+                    <div class="cart-item">
+                        <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-price">₹${item.price.toLocaleString()}</div>
+                            <div class="cart-item-quantity">
+                                <button class="qty-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
+                                <span style="margin: 0 0.5rem;">${item.quantity}</span>
+                                <button class="qty-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
+                            </div>
+                        </div>
+                        <button class="cart-item-remove" onclick="removeFromCart(${item.id})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+            });
+            
+            cartItemsDiv.innerHTML = itemsHTML;
+            
+            const shipping = subtotal > 500 ? 0 : 50;
+            const total = subtotal + shipping;
+            
+            cartSummaryDiv.innerHTML = `
+                <div class="cart-summary-row">
+                    <span>Subtotal:</span>
+                    <span>₹${subtotal.toLocaleString()}</span>
+                </div>
+                <div class="cart-summary-row">
+                    <span>Shipping:</span>
+                    <span>${shipping === 0 ? 'FREE' : '₹' + shipping}</span>
+                </div>
+                <div class="cart-summary-row">
+                    <strong>Total:</strong>
+                    <strong class="cart-total">₹${total.toLocaleString()}</strong>
+                </div>
+            `;
+        }
+
+        function updateQuantity(productId, change) {
+            const item = cart.find(i => i.id === productId);
+            if (!item) return;
+            
+            item.quantity += change;
+            
+            if (item.quantity <= 0) {
+                removeFromCart(productId);
+                return;
+            }
+            
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            renderCartItems();
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            
+            if (cart.length === 0) {
+                closeCartModal();
+                showToast('Cart is now empty', 'success');
+            } else {
+                renderCartItems();
+            }
+        }
+
+        function closeCartModal() {
+            document.getElementById('cartModal').classList.remove('show');
+        }
+
+        function proceedToCheckout() {
+            closeCartModal();
+            document.getElementById('checkoutModal').classList.add('show');
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkoutModal').classList.remove('show');
+        }
+
+        function showUPIPayment(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('customerName').value;
+            const phone = document.getElementById('customerPhone').value;
+            const email = document.getElementById('customerEmail').value;
+            const address = document.getElementById('customerAddress').value;
+            
+            currentOrder = {
+                customer: { name, phone, email, address },
+                items: [...cart],
+                timestamp: new Date().toISOString(),
+                orderId: 'RM' + Date.now()
+            };
+            
+            closeCheckoutModal();
+            
+            // Show UPI payment
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const shipping = subtotal > 500 ? 0 : 50;
+            const total = subtotal + shipping;
+            
+            document.getElementById('upiSummary').innerHTML = `
+                <div class="cart-summary-row">
+                    <span>Order ID:</span>
+                    <strong>${currentOrder.orderId}</strong>
+                </div>
+                <div class="cart-summary-row">
+                    <span>Subtotal:</span>
+                    <span>₹${subtotal.toLocaleString()}</span>
+                </div>
+                <div class="cart-summary-row">
+                    <span>Shipping:</span>
+                    <span>${shipping === 0 ? 'FREE' : '₹' + shipping}</span>
+                </div>
+                <div class="cart-summary-row">
+                    <strong>Total Amount:</strong>
+                    <strong class="cart-total">₹${total.toLocaleString()}</strong>
+                </div>
+            `;
+            
+            // Update QR code with amount
+            const qrImg = document.querySelector('.upi-qr img');
+            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=upi://pay?pa=rahulmobile@paytm&pn=Rahul%20Mobile&am=${total}&cu=INR&tn=Order%20${currentOrder.orderId}`;
+            
+            document.getElementById('upiModal').classList.add('show');
+        }
+
+        function closeUPIModal() {
+            document.getElementById('upiModal').classList.remove('show');
+        }
+
+        function confirmPayment() {
+            if (!currentOrder) return;
+            
+            // Send order notification via WhatsApp
+            const subtotal = currentOrder.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const shipping = subtotal > 500 ? 0 : 50;
+            const total = subtotal + shipping;
+            
+            let orderMessage = `🎉 NEW ORDER RECEIVED!\n\n`;
+            orderMessage += `📋 Order ID: ${currentOrder.orderId}\n`;
+            orderMessage += `👤 Customer: ${currentOrder.customer.name}\n`;
+            orderMessage += `📱 Phone: ${currentOrder.customer.phone}\n`;
+            if (currentOrder.customer.email) {
+                orderMessage += `📧 Email: ${currentOrder.customer.email}\n`;
+            }
+            orderMessage += `📍 Address: ${currentOrder.customer.address}\n\n`;
+            orderMessage += `🛒 ITEMS:\n`;
+            
+            currentOrder.items.forEach(item => {
+                orderMessage += `• ${item.name} x${item.quantity} - ₹${(item.price * item.quantity).toLocaleString()}\n`;
+            });
+            
+            orderMessage += `\n💰 PAYMENT:\n`;
+            orderMessage += `Subtotal: ₹${subtotal.toLocaleString()}\n`;
+            orderMessage += `Shipping: ${shipping === 0 ? 'FREE' : '₹' + shipping}\n`;
+            orderMessage += `Total: ₹${total.toLocaleString()}\n\n`;
+            orderMessage += `✅ Payment Status: COMPLETED (UPI)\n`;
+            orderMessage += `⏰ Time: ${new Date().toLocaleString()}`;
+            
+            // Send to your WhatsApp
+            window.open(`https://wa.me/918502019889?text=${encodeURIComponent(orderMessage)}`, '_blank');
+            
+            // Clear cart
+            cart = [];
+            localStorage.setItem('cart', JSON.stringify(cart));
+            updateCartCount();
+            
+            closeUPIModal();
+            showToast('Order placed successfully! 🎉 We will contact you soon!', 'success');
+            
+            currentOrder = null;
+        }
+
+        function orderViaWhatsApp() {
+            if (cart.length === 0) return;
+            
+            let message = '🛒 My Order:\n\n';
             let total = 0;
             
             cart.forEach(item => {
-                cartMessage += `${item.name} x${item.quantity} - ₹${(item.price * item.quantity).toLocaleString()}\n`;
-                total += item.price * item.quantity;
+                const itemTotal = item.price * item.quantity;
+                message += `${item.name} x${item.quantity} - ₹${itemTotal.toLocaleString()}\n`;
+                total += itemTotal;
             });
             
-            cartMessage += `\nTotal: ₹${total.toLocaleString()}`;
+            const shipping = total > 500 ? 0 : 50;
+            message += `\nShipping: ${shipping === 0 ? 'FREE' : '₹' + shipping}\n`;
+            message += `Total: ₹${(total + shipping).toLocaleString()}`;
             
-            const message = `Hi! I want to order:\n\n${cartMessage}`;
             window.open(`https://wa.me/918502019889?text=${encodeURIComponent(message)}`, '_blank');
+            closeCartModal();
         }
 
-        // Toggle Wishlist
         function toggleWishlist(productId) {
             const product = products.find(p => p.id === productId);
             const index = wishlist.indexOf(productId);
@@ -1340,22 +1835,18 @@
             renderProducts(currentFilter);
         }
 
-        // Filter by Category
         function filterByCategory(category) {
             currentFilter = category;
             renderProducts(category);
             
-            // Update active category
             document.querySelectorAll('.category-card').forEach(card => {
                 card.classList.remove('active');
             });
             event.target.closest('.category-card').classList.add('active');
             
-            // Scroll to products
             document.getElementById('products').scrollIntoView({ behavior: 'smooth' });
         }
 
-        // Search Functionality
         function performSearch() {
             const searchTerm = document.getElementById('searchInput').value;
             renderProducts(currentFilter, searchTerm);
@@ -1367,7 +1858,6 @@
             }
         }
 
-        // Login Modal
         function openLoginModal() {
             document.getElementById('loginModal').classList.add('show');
         }
@@ -1381,18 +1871,15 @@
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
             
-            // Demo login (in production, this would call an API)
             if (email && password) {
-                localStorage.setItem('user', JSON.stringify({ email }));
+                const user = { email, name: email.split('@')[0] };
+                localStorage.setItem('user', JSON.stringify(user));
                 closeLoginModal();
                 showToast('Login successful! Welcome back! 🎉', 'success');
-                
-                // Update login button
-                document.querySelector('.btn-login').innerHTML = '<i class="fas fa-user-check"></i> ' + email.split('@')[0];
+                checkUserLogin();
             }
         }
 
-        // Toast notification
         function showToast(message, type = 'success') {
             const toast = document.getElementById('toast');
             const toastMessage = toast.querySelector('.toast-message');
@@ -1414,7 +1901,6 @@
             }, 3000);
         }
 
-        // Smooth scroll
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
