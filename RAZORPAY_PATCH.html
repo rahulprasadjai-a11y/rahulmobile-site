@@ -1,0 +1,392 @@
+<!-- ============================================ -->
+<!-- RAZORPAY INTEGRATION PATCH -->
+<!-- Add these sections to your index.html -->
+<!-- ============================================ -->
+
+<!-- ========== STEP 1: ADD TO <head> SECTION ========== -->
+<!-- Add these scripts BEFORE closing </head> tag -->
+
+<!-- Razorpay Checkout Script -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<!-- EmailJS for Email Notifications (Optional) -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+
+<!-- ========== STEP 2: ADD PAYMENT MODAL ========== -->
+<!-- Add this modal AFTER the UPI Payment Modal -->
+
+<!-- Razorpay Payment Success Modal -->
+<div class="modal" id="paymentSuccessModal">
+    <div class="modal-content" style="max-width: 500px; text-align: center;">
+        <div style="font-size: 4rem; color: var(--success); margin-bottom: 1rem;">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <h2 style="color: var(--success); margin-bottom: 1rem;">Payment Successful! 🎉</h2>
+        <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">
+            Your order has been placed successfully!
+        </p>
+        <div id="orderDetails" style="background: var(--light); padding: 1.5rem; border-radius: 15px; margin-bottom: 1.5rem;">
+            <!-- Order details will be inserted here -->
+        </div>
+        <p id="confirmationEmail" style="margin-bottom: 1.5rem; color: #666;">
+            <!-- Email confirmation message -->
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+            <button class="btn btn-primary" onclick="viewOrderTracking()">
+                <i class="fas fa-truck"></i> Track Order
+            </button>
+            <button class="btn btn-secondary" onclick="closePaymentSuccessModal()">
+                <i class="fas fa-home"></i> Continue Shopping
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<!-- ========== STEP 3: UPDATE CHECKOUT FORM ========== -->
+<!-- Replace the existing checkout form submit button with this: -->
+
+<div class="payment-options" style="margin-top: 1.5rem;">
+    <h3 style="margin-bottom: 1rem; text-align: center;">Choose Payment Method</h3>
+    
+    <!-- Razorpay Payment Button -->
+    <button type="button" class="btn-submit" onclick="processRazorpayPayment()" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); margin-bottom: 1rem;">
+        <i class="fas fa-lock"></i> Pay Securely with Razorpay
+        <div style="font-size: 0.85rem; margin-top: 0.3rem; opacity: 0.9;">
+            Cards • UPI • Wallets • Net Banking
+        </div>
+    </button>
+    
+    <!-- UPI QR Code Payment Button (Existing) -->
+    <button type="button" class="btn-submit" onclick="showUPIPayment(event)" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+        <i class="fas fa-qrcode"></i> Pay with UPI QR Code
+        <div style="font-size: 0.85rem; margin-top: 0.3rem; opacity: 0.9;">
+            Scan & Pay • Manual Verification
+        </div>
+    </button>
+</div>
+
+
+<!-- ========== STEP 4: ADD JAVASCRIPT FUNCTIONS ========== -->
+<!-- Add these functions BEFORE the closing </script> tag -->
+
+<script>
+// ============================================
+// RAZORPAY CONFIGURATION
+// ============================================
+const RAZORPAY_KEY_ID = 'rzp_test_RoLDldyBWpAk5J';
+
+// ============================================
+// RAZORPAY PAYMENT PROCESSING
+// ============================================
+function processRazorpayPayment() {
+    // Get customer details
+    const name = document.getElementById('customerName').value;
+    const phone = document.getElementById('customerPhone').value;
+    const email = document.getElementById('customerEmail').value;
+    const address = document.getElementById('customerAddress').value;
+    
+    // Validate
+    if (!name || !phone || !email || !address) {
+        showToast('Please fill all details', 'warning');
+        return;
+    }
+    
+    // Validate phone
+    if (phone.length !== 10) {
+        showToast('Please enter valid 10-digit phone number', 'warning');
+        return;
+    }
+    
+    // Validate email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        showToast('Please enter valid email address', 'warning');
+        return;
+    }
+    
+    // Calculate total
+    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const shipping = subtotal > 500 ? 0 : 50;
+    const total = subtotal + shipping;
+    
+    // Create order data
+    const orderData = {
+        customer: { name, phone, email, address },
+        items: [...cart],
+        timestamp: new Date().toISOString(),
+        orderId: 'RM-' + Date.now()
+    };
+    
+    // Initialize Razorpay payment
+    initRazorpayPayment(orderData, total);
+}
+
+// ============================================
+// INITIALIZE RAZORPAY PAYMENT
+// ============================================
+function initRazorpayPayment(orderData, totalAmount) {
+    const options = {
+        key: RAZORPAY_KEY_ID,
+        amount: totalAmount * 100, // Amount in paise
+        currency: 'INR',
+        name: 'Rahul Mobile',
+        description: `Order #${orderData.orderId}`,
+        image: 'https://nyc3.digitaloceanspaces.com/bhindi-drive/files/91452e7d-ceec-4f57-a0a3-13430b79756b/2025-12-06T10-57-37-151Z-ac43c268-chat-image-1765018657131-0.jpg',
+        prefill: {
+            name: orderData.customer.name,
+            email: orderData.customer.email,
+            contact: orderData.customer.phone
+        },
+        notes: {
+            order_id: orderData.orderId,
+            address: orderData.customer.address
+        },
+        theme: {
+            color: '#667eea'
+        },
+        handler: function (response) {
+            handlePaymentSuccess(response, orderData, totalAmount);
+        },
+        modal: {
+            ondismiss: function() {
+                showToast('Payment cancelled. Please try again.', 'warning');
+            }
+        }
+    };
+
+    const razorpay = new Razorpay(options);
+    razorpay.open();
+}
+
+// ============================================
+// HANDLE PAYMENT SUCCESS
+// ============================================
+async function handlePaymentSuccess(response, orderData, totalAmount) {
+    console.log('Payment Success:', response);
+    
+    // Add payment details to order
+    const completeOrder = {
+        ...orderData,
+        total: totalAmount,
+        status: 'processing',
+        paymentMethod: 'Razorpay',
+        paymentStatus: 'completed',
+        paymentId: response.razorpay_payment_id,
+        paymentSignature: response.razorpay_signature || 'N/A'
+    };
+    
+    // Save to OMS (localStorage)
+    saveToOMS(completeOrder);
+    
+    // Send to Google Sheets (if configured)
+    try {
+        await sendToGoogleSheets(completeOrder);
+    } catch (error) {
+        console.log('Google Sheets not configured:', error);
+    }
+    
+    // Send Email Notifications (if configured)
+    try {
+        await sendEmailNotifications(completeOrder);
+    } catch (error) {
+        console.log('Email not configured:', error);
+    }
+    
+    // Send WhatsApp notification
+    sendWhatsAppNotification(completeOrder);
+    
+    // Clear cart
+    cart = [];
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartCount();
+    
+    // Close checkout modal
+    closeCheckoutModal();
+    
+    // Show success modal
+    showPaymentSuccessModal(completeOrder);
+}
+
+// ============================================
+// SAVE TO OMS (LOCAL STORAGE)
+// ============================================
+function saveToOMS(order) {
+    let orders = JSON.parse(localStorage.getItem('orders')) || [];
+    orders.unshift(order);
+    localStorage.setItem('orders', JSON.stringify(orders));
+    console.log('Order saved to OMS:', order.orderId);
+}
+
+// ============================================
+// SEND TO GOOGLE SHEETS (OPTIONAL)
+// ============================================
+async function sendToGoogleSheets(order) {
+    const GOOGLE_SHEETS_URL = ''; // Add your Google Sheets deployment URL here
+    
+    if (!GOOGLE_SHEETS_URL) {
+        console.log('Google Sheets URL not configured');
+        return;
+    }
+    
+    try {
+        const data = {
+            orderId: order.orderId,
+            timestamp: new Date(order.timestamp).toLocaleString(),
+            customerName: order.customer.name,
+            customerPhone: order.customer.phone,
+            customerEmail: order.customer.email,
+            customerAddress: order.customer.address,
+            items: order.items.map(item => `${item.name} x${item.quantity}`).join(', '),
+            total: order.total,
+            status: order.status,
+            paymentMethod: order.paymentMethod,
+            paymentId: order.paymentId
+        };
+        
+        await fetch(GOOGLE_SHEETS_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        });
+        
+        console.log('Order sent to Google Sheets');
+    } catch (error) {
+        console.error('Google Sheets error:', error);
+    }
+}
+
+// ============================================
+// SEND EMAIL NOTIFICATIONS (OPTIONAL)
+// ============================================
+async function sendEmailNotifications(order) {
+    const EMAILJS_SERVICE_ID = ''; // Add your EmailJS service ID
+    const EMAILJS_TEMPLATE_ID = ''; // Add your EmailJS template ID
+    const EMAILJS_PUBLIC_KEY = ''; // Add your EmailJS public key
+    
+    if (!EMAILJS_SERVICE_ID || !EMAILJS_TEMPLATE_ID || !EMAILJS_PUBLIC_KEY) {
+        console.log('EmailJS not configured');
+        return;
+    }
+    
+    try {
+        // Initialize EmailJS
+        emailjs.init(EMAILJS_PUBLIC_KEY);
+        
+        // Email to customer
+        const customerEmailParams = {
+            to_email: order.customer.email,
+            to_name: order.customer.name,
+            order_id: order.orderId,
+            payment_id: order.paymentId,
+            order_date: new Date(order.timestamp).toLocaleString(),
+            items: order.items.map(item => `${item.name} x${item.quantity} - ₹${(item.price * item.quantity).toLocaleString()}`).join('\n'),
+            total: order.total.toLocaleString(),
+            address: order.customer.address
+        };
+        
+        await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, customerEmailParams);
+        console.log('Email sent to customer');
+    } catch (error) {
+        console.error('Email error:', error);
+    }
+}
+
+// ============================================
+// SEND WHATSAPP NOTIFICATION
+// ============================================
+function sendWhatsAppNotification(order) {
+    let orderMessage = `🎉 NEW ORDER - PAYMENT RECEIVED!\n\n`;
+    orderMessage += `📋 Order ID: ${order.orderId}\n`;
+    orderMessage += `💳 Payment ID: ${order.paymentId}\n`;
+    orderMessage += `👤 Customer: ${order.customer.name}\n`;
+    orderMessage += `📱 Phone: ${order.customer.phone}\n`;
+    orderMessage += `📧 Email: ${order.customer.email}\n`;
+    orderMessage += `📍 Address: ${order.customer.address}\n\n`;
+    orderMessage += `🛒 ITEMS:\n`;
+    
+    order.items.forEach(item => {
+        orderMessage += `• ${item.name} x${item.quantity} - ₹${(item.price * item.quantity).toLocaleString()}\n`;
+    });
+    
+    orderMessage += `\n💰 PAYMENT:\n`;
+    orderMessage += `Total: ₹${order.total.toLocaleString()}\n`;
+    orderMessage += `✅ Payment Status: COMPLETED\n`;
+    orderMessage += `💳 Payment Method: Razorpay\n`;
+    orderMessage += `⏰ Time: ${new Date().toLocaleString()}`;
+    
+    window.open(`https://wa.me/918502019889?text=${encodeURIComponent(orderMessage)}`, '_blank');
+}
+
+// ============================================
+// SHOW PAYMENT SUCCESS MODAL
+// ============================================
+function showPaymentSuccessModal(order) {
+    const modal = document.getElementById('paymentSuccessModal');
+    const orderDetails = document.getElementById('orderDetails');
+    const confirmationEmail = document.getElementById('confirmationEmail');
+    
+    orderDetails.innerHTML = `
+        <div style="margin-bottom: 0.5rem;">
+            <strong>Order ID:</strong> ${order.orderId}
+        </div>
+        <div style="margin-bottom: 0.5rem;">
+            <strong>Payment ID:</strong> ${order.paymentId}
+        </div>
+        <div>
+            <strong>Amount Paid:</strong> ₹${order.total.toLocaleString()}
+        </div>
+    `;
+    
+    confirmationEmail.innerHTML = `
+        <i class="fas fa-envelope"></i> 
+        Order confirmation has been sent to ${order.customer.email}
+    `;
+    
+    modal.classList.add('show');
+}
+
+// ============================================
+// CLOSE PAYMENT SUCCESS MODAL
+// ============================================
+function closePaymentSuccessModal() {
+    document.getElementById('paymentSuccessModal').classList.remove('show');
+    window.location.href = 'index.html';
+}
+
+// ============================================
+// VIEW ORDER TRACKING
+// ============================================
+function viewOrderTracking() {
+    const orders = JSON.parse(localStorage.getItem('orders')) || [];
+    if (orders.length > 0) {
+        const latestOrder = orders[0];
+        window.location.href = `tracking.html?order=${latestOrder.orderId}`;
+    }
+}
+</script>
+
+
+<!-- ========== INSTALLATION COMPLETE ========== -->
+<!-- 
+NEXT STEPS:
+1. Copy the <head> scripts to your index.html <head> section
+2. Add the Payment Success Modal after your UPI modal
+3. Replace the checkout form button with the new payment options
+4. Add all the JavaScript functions before closing </script> tag
+5. Test with Razorpay test cards!
+
+TEST CARDS:
+- Success: 4111 1111 1111 1111
+- Failed: 4012 0010 3714 1112
+- CVV: 123
+- Expiry: Any future date
+
+OPTIONAL CONFIGURATION:
+- Google Sheets URL (for order backup)
+- EmailJS credentials (for email notifications)
+-->
