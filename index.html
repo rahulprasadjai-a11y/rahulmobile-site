@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rahul Mobile - Premium Mobile Store in Dausa | Latest Smartphones & Accessories</title>
     <meta name="description" content="Shop latest smartphones, accessories, and electronics at Rahul Mobile Dausa. Best prices, genuine products, expert service.">
+    <link rel="icon" href="https://nyc3.digitaloceanspaces.com/bhindi-drive/files/91452e7d-ceec-4f57-a0a3-13430b79756b/2025-12-06T16-45-28-172Z-8a68267f-chat-image-1765039528152-0.jpg" type="image/jpeg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
@@ -16,10 +17,10 @@
         }
         
         :root {
-            --primary: #667eea;
-            --primary-dark: #5568d3;
-            --secondary: #764ba2;
-            --accent: #f093fb;
+            --primary: #8b5cf6;
+            --primary-dark: #7c3aed;
+            --secondary: #a78bfa;
+            --accent: #c4b5fd;
             --success: #10b981;
             --danger: #ef4444;
             --dark: #1a1a2e;
@@ -113,15 +114,23 @@
         }
         
         .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.8rem;
+            text-decoration: none;
+            color: white;
         }
         
-        .logo i {
-            font-size: 2rem;
+        .logo-image {
+            height: 50px;
+            width: auto;
+            filter: brightness(0) invert(1);
+        }
+        
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
         }
         
         .nav-links {
@@ -504,7 +513,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(102, 126, 234, 0.9);
+            background: rgba(139, 92, 246, 0.9);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -622,7 +631,7 @@
         
         .btn-add-cart:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.4);
         }
         
         .btn-wishlist {
@@ -1077,6 +1086,14 @@
                 display: none;
             }
             
+            .logo-image {
+                height: 40px;
+            }
+            
+            .logo-text {
+                font-size: 1.4rem;
+            }
+            
             .hero-text h1 {
                 font-size: 2rem;
             }
@@ -1127,10 +1144,10 @@
             </div>
         </div>
         <nav>
-            <div class="logo">
-                <i class="fas fa-mobile-alt"></i>
-                <span>RAHUL MOBILE</span>
-            </div>
+            <a href="#home" class="logo">
+                <img src="https://nyc3.digitaloceanspaces.com/bhindi-drive/files/91452e7d-ceec-4f57-a0a3-13430b79756b/2025-12-06T16-45-28-172Z-8a68267f-chat-image-1765039528152-0.jpg" alt="Rahul Mobile Logo" class="logo-image">
+                <span class="logo-text">RAHUL MOBILE</span>
+            </a>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#products">Products</a></li>
@@ -1402,7 +1419,7 @@
 
     <script>
         // Razorpay Configuration
-        const RAZORPAY_KEY = 'rzp_test_RoLDldyBWpAk5J'; // YOUR RAZORPAY KEY
+        const RAZORPAY_KEY = 'rzp_test_RoLDldyBWpAk5J';
         
         // Enhanced Product Data
         const products = [
@@ -1673,19 +1690,14 @@
             
             const options = {
                 key: RAZORPAY_KEY,
-                amount: total * 100, // Amount in paise
+                amount: total * 100,
                 currency: 'INR',
                 name: 'RAHUL MOBILE',
                 description: 'Order Payment',
-                image: 'https://cdn-icons-png.flaticon.com/512/3659/3659898.png',
+                image: 'https://nyc3.digitaloceanspaces.com/bhindi-drive/files/91452e7d-ceec-4f57-a0a3-13430b79756b/2025-12-06T16-45-28-172Z-8a68267f-chat-image-1765039528152-0.jpg',
                 handler: function (response) {
-                    // Payment successful
                     showToast('✓ Payment Successful! Order ID: ' + response.razorpay_payment_id);
-                    
-                    // Send order details via WhatsApp
                     sendOrderConfirmation(response.razorpay_payment_id);
-                    
-                    // Clear cart
                     cart = [];
                     updateCart();
                     closeCart();
@@ -1699,7 +1711,7 @@
                     address: 'Rahul Mobile, Dausa'
                 },
                 theme: {
-                    color: '#667eea'
+                    color: '#8b5cf6'
                 },
                 modal: {
                     ondismiss: function() {
