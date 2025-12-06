@@ -1351,8 +1351,8 @@
                     <input type="tel" id="customerPhone" required placeholder="Enter phone number" pattern="[0-9]{10}">
                 </div>
                 <div class="form-group">
-                    <label>Email (Optional)</label>
-                    <input type="email" id="customerEmail" placeholder="Enter email">
+                    <label>Email *</label>
+                    <input type="email" id="customerEmail" required placeholder="Enter email for order confirmation">
                 </div>
                 <div class="form-group">
                     <label>Delivery Address *</label>
@@ -1479,6 +1479,14 @@
             }
         ];
 
+        // Google Sheets Configuration
+        const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwYOUR_DEPLOYMENT_ID/exec';
+        
+        // Email Configuration (using EmailJS)
+        const EMAILJS_SERVICE_ID = 'service_rahulmobile';
+        const EMAILJS_TEMPLATE_ID = 'template_order';
+        const EMAILJS_PUBLIC_KEY = 'YOUR_EMAILJS_PUBLIC_KEY';
+
         // Storage
         let cart = JSON.parse(localStorage.getItem('cart')) || [];
         let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
@@ -1490,10 +1498,21 @@
             renderProducts();
             updateCartCount();
             checkUserLogin();
+            loadEmailJS();
             setTimeout(() => {
                 showToast('Welcome to Rahul Mobile! 🎉 Shop the best deals!', 'success');
             }, 1000);
         });
+
+        // Load EmailJS
+        function loadEmailJS() {
+            const script = document.createElement('script');
+            script.src = 'https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js';
+            script.onload = () => {
+                emailjs.init(EMAILJS_PUBLIC_KEY);
+            };
+            document.head.appendChild(script);
+        }
 
         // Check if user is logged in
         function checkUserLogin() {
@@ -1756,37 +1775,24 @@
             document.getElementById('upiModal').classList.remove('show');
         }
 
-        function confirmPayment() {
+        async function confirmPayment() {
             if (!currentOrder) return;
             
-            // Send order notification via WhatsApp
             const subtotal = currentOrder.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             const shipping = subtotal > 500 ? 0 : 50;
             const total = subtotal + shipping;
             
-            let orderMessage = `🎉 NEW ORDER RECEIVED!\n\n`;
-            orderMessage += `📋 Order ID: ${currentOrder.orderId}\n`;
-            orderMessage += `👤 Customer: ${currentOrder.customer.name}\n`;
-            orderMessage += `📱 Phone: ${currentOrder.customer.phone}\n`;
-            if (currentOrder.customer.email) {
-                orderMessage += `📧 Email: ${currentOrder.customer.email}\n`;
-            }
-            orderMessage += `📍 Address: ${currentOrder.customer.address}\n\n`;
-            orderMessage += `🛒 ITEMS:\n`;
+            // Save to OMS (localStorage)
+            saveToOMS(currentOrder, total);
             
-            currentOrder.items.forEach(item => {
-                orderMessage += `• ${item.name} x${item.quantity} - ₹${(item.price * item.quantity).toLocaleString()}\n`;
-            });
+            // Send to Google Sheets
+            await sendToGoogleSheets(currentOrder, total);
             
-            orderMessage += `\n💰 PAYMENT:\n`;
-            orderMessage += `Subtotal: ₹${subtotal.toLocaleString()}\n`;
-            orderMessage += `Shipping: ${shipping === 0 ? 'FREE' : '₹' + shipping}\n`;
-            orderMessage += `Total: ₹${total.toLocaleString()}\n\n`;
-            orderMessage += `✅ Payment Status: COMPLETED (UPI)\n`;
-            orderMessage += `⏰ Time: ${new Date().toLocaleString()}`;
+            // Send Email Notifications
+            await sendEmailNotifications(currentOrder, total);
             
-            // Send to your WhatsApp
-            window.open(`https://wa.me/918502019889?text=${encodeURIComponent(orderMessage)}`, '_blank');
+            // Send WhatsApp notification
+            sendWhatsAppNotification(currentOrder, total);
             
             // Clear cart
             cart = [];
@@ -1794,9 +1800,99 @@
             updateCartCount();
             
             closeUPIModal();
-            showToast('Order placed successfully! 🎉 We will contact you soon!', 'success');
+            showToast('Order placed successfully! 🎉 Check your email for confirmation!', 'success');
             
             currentOrder = null;
+        }
+
+        function saveToOMS(order, total) {
+            let orders = JSON.parse(localStorage.getItem('orders')) || [];
+            orders.unshift({
+                ...order,
+                total: total,
+                status: 'pending',
+                paymentMethod: 'UPI',
+                paymentStatus: 'completed'
+            });
+            localStorage.setItem('orders', JSON.stringify(orders));
+        }
+
+        async function sendToGoogleSheets(order, total) {
+            try {
+                const data = {
+                    orderId: order.orderId,
+                    timestamp: new Date(order.timestamp).toLocaleString(),
+                    customerName: order.customer.name,
+                    customerPhone: order.customer.phone,
+                    customerEmail: order.customer.email,
+                    customerAddress: order.customer.address,
+                    items: order.items.map(item => `${item.name} x${item.quantity}`).join(', '),
+                    total: total,
+                    status: 'Pending',
+                    paymentMethod: 'UPI'
+                };
+                
+                await fetch(GOOGLE_SHEETS_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+            } catch (error) {
+                console.error('Google Sheets error:', error);
+            }
+        }
+
+        async function sendEmailNotifications(order, total) {
+            try {
+                // Email to customer
+                const customerEmailParams = {
+                    to_email: order.customer.email,
+                    to_name: order.customer.name,
+                    order_id: order.orderId,
+                    order_date: new Date(order.timestamp).toLocaleString(),
+                    items: order.items.map(item => `${item.name} x${item.quantity} - ₹${(item.price * item.quantity).toLocaleString()}`).join('\n'),
+                    total: total.toLocaleString(),
+                    address: order.customer.address
+                };
+                
+                await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, customerEmailParams);
+                
+                // Email to admin
+                const adminEmailParams = {
+                    to_email: 'info@rahulmobile.in',
+                    to_name: 'Rahul Mobile Admin',
+                    subject: `New Order ${order.orderId}`,
+                    message: `New order received from ${order.customer.name} (${order.customer.phone})\nTotal: ₹${total.toLocaleString()}`
+                };
+                
+                await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, adminEmailParams);
+            } catch (error) {
+                console.error('Email error:', error);
+            }
+        }
+
+        function sendWhatsAppNotification(order, total) {
+            let orderMessage = `🎉 NEW ORDER RECEIVED!\n\n`;
+            orderMessage += `📋 Order ID: ${order.orderId}\n`;
+            orderMessage += `👤 Customer: ${order.customer.name}\n`;
+            orderMessage += `📱 Phone: ${order.customer.phone}\n`;
+            orderMessage += `📧 Email: ${order.customer.email}\n`;
+            orderMessage += `📍 Address: ${order.customer.address}\n\n`;
+            orderMessage += `🛒 ITEMS:\n`;
+            
+            order.items.forEach(item => {
+                orderMessage += `• ${item.name} x${item.quantity} - ₹${(item.price * item.quantity).toLocaleString()}\n`;
+            });
+            
+            orderMessage += `\n💰 PAYMENT:\n`;
+            orderMessage += `Total: ₹${total.toLocaleString()}\n`;
+            orderMessage += `✅ Payment Status: COMPLETED (UPI)\n`;
+            orderMessage += `⏰ Time: ${new Date().toLocaleString()}`;
+            
+            window.open(`https://wa.me/918502019889?text=${encodeURIComponent(orderMessage)}`, '_blank');
         }
 
         function orderViaWhatsApp() {
