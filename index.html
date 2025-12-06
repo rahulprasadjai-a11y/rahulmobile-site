@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rahul Mobile - Dausa | Mobile & Accessories</title>
-    <meta name="description" content="Best mobile shop in Dausa. Latest smartphones, accessories, chargers, earphones at best prices.">
+    <title>Rahul Mobile - Premium Mobile Store in Dausa | Latest Smartphones & Accessories</title>
+    <meta name="description" content="Shop latest smartphones, accessories, and electronics at Rahul Mobile Dausa. Best prices, genuine products, expert service.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -13,192 +14,799 @@
             box-sizing: border-box;
         }
         
+        :root {
+            --primary: #667eea;
+            --primary-dark: #5568d3;
+            --secondary: #764ba2;
+            --accent: #f093fb;
+            --success: #10b981;
+            --danger: #ef4444;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0,0,0,0.1);
+            --shadow-lg: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
             line-height: 1.6;
-            color: #333;
+            color: var(--dark);
+            overflow-x: hidden;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
         }
         
         /* Header */
         header {
-            background: #667eea;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
-            padding: 1rem 0;
+            padding: 0;
             position: sticky;
             top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 1000;
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .top-bar {
+            background: rgba(0,0,0,0.2);
+            padding: 0.5rem 0;
+            font-size: 0.85rem;
+        }
+        
+        .top-bar-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .top-bar-left {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .top-bar-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
         
         nav {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 1rem;
+            padding: 1rem 2rem;
         }
         
         .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .logo i {
+            font-size: 2rem;
         }
         
         .nav-links {
             display: flex;
-            gap: 2rem;
+            gap: 2.5rem;
             list-style: none;
+            align-items: center;
         }
         
         .nav-links a {
             color: white;
             text-decoration: none;
             font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            transform: translateY(-2px);
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s;
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .nav-right {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+        
+        .search-box {
+            position: relative;
+        }
+        
+        .search-box input {
+            padding: 0.6rem 2.5rem 0.6rem 1rem;
+            border: none;
+            border-radius: 25px;
+            width: 250px;
+            outline: none;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            backdrop-filter: blur(10px);
+        }
+        
+        .search-box input::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+        
+        .search-box i {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
         }
         
         .cart-icon {
             font-size: 1.5rem;
             cursor: pointer;
             position: relative;
+            transition: transform 0.3s;
+        }
+        
+        .cart-icon:hover {
+            transform: scale(1.1);
         }
         
         .cart-count {
             position: absolute;
             top: -8px;
             right: -8px;
-            background: #ef4444;
+            background: var(--danger);
             color: white;
             border-radius: 50%;
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 0.7rem;
+            font-weight: 600;
+            animation: pulse 2s infinite;
         }
         
-        /* Hero */
+        /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
             color: white;
-            padding: 3rem 1rem;
-            text-align: center;
+            padding: 5rem 2rem;
+            position: relative;
+            overflow: hidden;
         }
         
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="rgba(255,255,255,0.1)" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,138.7C960,139,1056,117,1152,101.3C1248,85,1344,75,1392,69.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+            background-size: cover;
         }
         
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-        }
-        
-        /* Products */
-        .products {
-            max-width: 1200px;
-            margin: 3rem auto;
-            padding: 0 1rem;
-        }
-        
-        .products h2 {
-            text-align: center;
-            margin-bottom: 2rem;
-            font-size: 2rem;
-        }
-        
-        .product-grid {
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 2rem;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
         }
         
-        .product-card {
-            background: white;
-            border-radius: 10px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-        }
-        
-        .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-        }
-        
-        .product-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 8px;
+        .hero-text h1 {
+            font-size: 3.5rem;
             margin-bottom: 1rem;
+            font-weight: 700;
+            line-height: 1.2;
+            animation: fadeInUp 0.8s;
         }
         
-        .product-card h3 {
-            font-size: 1.2rem;
-            margin-bottom: 0.5rem;
+        .hero-text .highlight {
+            color: var(--accent);
         }
         
-        .product-card .price {
-            font-size: 1.5rem;
-            color: #667eea;
-            font-weight: bold;
-            margin-bottom: 1rem;
+        .hero-text p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            animation: fadeInUp 0.8s 0.2s backwards;
         }
         
-        .btn {
-            background: #667eea;
-            color: white;
-            border: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 1rem;
-            width: 100%;
-            transition: background 0.3s;
-        }
-        
-        .btn:hover {
-            background: #5568d3;
-        }
-        
-        /* Contact */
-        .contact {
-            background: #f8f9fa;
-            padding: 3rem 1rem;
-            text-align: center;
-        }
-        
-        .contact h2 {
-            margin-bottom: 1rem;
-        }
-        
-        .contact-info {
+        .hero-features {
             display: flex;
-            justify-content: center;
             gap: 2rem;
-            flex-wrap: wrap;
-            margin-top: 2rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s 0.4s backwards;
         }
         
-        .contact-item {
+        .hero-feature {
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
         
-        .contact-item i {
-            color: #667eea;
+        .hero-feature i {
             font-size: 1.5rem;
+            color: var(--accent);
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            animation: fadeInUp 0.8s 0.6s backwards;
+        }
+        
+        .btn-primary, .btn-secondary {
+            padding: 1rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: white;
+            color: var(--primary);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255,255,255,0.3);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+        
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary);
+        }
+        
+        .hero-image {
+            position: relative;
+            animation: fadeInUp 0.8s 0.4s backwards;
+        }
+        
+        .hero-image img {
+            width: 100%;
+            max-width: 500px;
+            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.3));
+        }
+        
+        /* Categories */
+        .categories {
+            padding: 4rem 2rem;
+            background: var(--light);
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .section-header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        .category-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+        
+        .category-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: var(--shadow);
+        }
+        
+        .category-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .category-card i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .category-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .category-card p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* Products */
+        .products {
+            max-width: 1400px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+        
+        .filter-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .filter-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 0.6rem 1.5rem;
+            border: 2px solid var(--primary);
+            background: white;
+            color: var(--primary);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .sort-select {
+            padding: 0.6rem 1.5rem;
+            border: 2px solid var(--primary);
+            border-radius: 25px;
+            outline: none;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+        
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--danger);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            z-index: 1;
+        }
+        
+        .product-image {
+            position: relative;
+            overflow: hidden;
+            height: 280px;
+            background: var(--light);
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
+        }
+        
+        .product-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(102, 126, 234, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .product-card:hover .product-overlay {
+            opacity: 1;
+        }
+        
+        .overlay-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        
+        .overlay-btn:hover {
+            transform: scale(1.1);
+            background: var(--accent);
+            color: white;
+        }
+        
+        .product-info {
+            padding: 1.5rem;
+        }
+        
+        .product-category {
+            color: var(--primary);
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .product-rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .stars {
+            color: #fbbf24;
+        }
+        
+        .rating-count {
+            color: #666;
+            font-size: 0.85rem;
+        }
+        
+        .product-price {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .current-price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .original-price {
+            font-size: 1.2rem;
+            color: #999;
+            text-decoration: line-through;
+        }
+        
+        .discount {
+            background: var(--success);
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .product-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .btn-add-cart {
+            flex: 1;
+            padding: 0.8rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-add-cart:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-wishlist {
+            width: 45px;
+            height: 45px;
+            border: 2px solid var(--primary);
+            background: white;
+            color: var(--primary);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-wishlist:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        /* Features */
+        .features {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 4rem 2rem;
+        }
+        
+        .features-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+        }
+        
+        .feature-item {
+            text-align: center;
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .feature-item h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .feature-item p {
+            opacity: 0.9;
+        }
+        
+        /* Contact */
+        .contact {
+            padding: 4rem 2rem;
+            background: var(--light);
+        }
+        
+        .contact-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+        
+        .contact-info-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            transition: all 0.3s;
+        }
+        
+        .contact-info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        .contact-details h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+            color: var(--dark);
+        }
+        
+        .contact-details p {
+            color: #666;
         }
         
         /* Footer */
         footer {
-            background: #1a1a2e;
+            background: var(--dark);
             color: white;
+            padding: 3rem 2rem 1rem;
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+        
+        .footer-section p {
+            opacity: 0.8;
+            line-height: 1.8;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: all 0.3s;
+        }
+        
+        .footer-links a:hover {
+            opacity: 1;
+            padding-left: 5px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .social-btn:hover {
+            background: var(--primary);
+            transform: translateY(-3px);
+        }
+        
+        .footer-bottom {
             text-align: center;
-            padding: 2rem 1rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            opacity: 0.8;
         }
         
         /* Cart Modal */
@@ -209,45 +817,213 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            backdrop-filter: blur(5px);
         }
         
         .modal-content {
             background: white;
-            max-width: 600px;
+            max-width: 700px;
             margin: 2rem auto;
-            padding: 2rem;
-            border-radius: 10px;
-            max-height: 80vh;
+            border-radius: 20px;
+            max-height: 85vh;
             overflow-y: auto;
+            animation: slideIn 0.3s;
         }
         
         .modal-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1rem;
+            border-radius: 20px 20px 0 0;
+        }
+        
+        .modal-header h2 {
+            font-size: 1.5rem;
         }
         
         .close {
             font-size: 2rem;
             cursor: pointer;
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+        
+        .close:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .cart-items-container {
+            padding: 2rem;
         }
         
         .cart-item {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
+            gap: 1.5rem;
+            padding: 1.5rem;
             border-bottom: 1px solid #eee;
+            align-items: center;
+        }
+        
+        .cart-item-image {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+        
+        .cart-item-details {
+            flex: 1;
+        }
+        
+        .cart-item-name {
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+        
+        .cart-item-price {
+            color: var(--primary);
+            font-weight: 600;
+        }
+        
+        .cart-item-quantity {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .qty-btn {
+            width: 30px;
+            height: 30px;
+            border: 1px solid var(--primary);
+            background: white;
+            color: var(--primary);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .qty-btn:hover {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .cart-item-remove {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .cart-item-remove:hover {
+            background: #dc2626;
+        }
+        
+        .cart-summary {
+            padding: 2rem;
+            background: var(--light);
+            border-radius: 0 0 20px 20px;
         }
         
         .cart-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             font-size: 1.5rem;
-            font-weight: bold;
-            margin-top: 1rem;
-            text-align: right;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+        
+        .checkout-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--success), #059669);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+        }
+        
+        .empty-cart {
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+        
+        .empty-cart i {
+            font-size: 4rem;
+            color: #ddd;
+            margin-bottom: 1rem;
+        }
+        
+        .empty-cart p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow-lg);
+            z-index: 10000;
+            animation: slideIn 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-buttons {
+                justify-content: center;
+            }
+            
+            .hero-image {
+                display: none;
+            }
+            
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
         }
         
         @media (max-width: 768px) {
@@ -255,13 +1031,39 @@
                 display: none;
             }
             
-            .hero h1 {
-                font-size: 1.8rem;
+            .search-box {
+                display: none;
+            }
+            
+            .top-bar {
+                display: none;
+            }
+            
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-text p {
+                font-size: 1rem;
+            }
+            
+            .hero-features {
+                flex-direction: column;
+                gap: 1rem;
             }
             
             .product-grid {
                 grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
                 gap: 1rem;
+            }
+            
+            .filter-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -269,136 +1071,463 @@
 <body>
     <!-- Header -->
     <header>
+        <div class="top-bar">
+            <div class="top-bar-content">
+                <div class="top-bar-left">
+                    <div class="top-bar-item">
+                        <i class="fas fa-phone"></i>
+                        <span>+91 8764719889</span>
+                    </div>
+                    <div class="top-bar-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>info@rahulmobile.com</span>
+                    </div>
+                </div>
+                <div class="top-bar-right">
+                    <span><i class="fas fa-truck"></i> Free Delivery on Orders Above ₹5000</span>
+                </div>
+            </div>
+        </div>
         <nav>
-            <div class="logo">📱 Rahul Mobile</div>
+            <div class="logo">
+                <i class="fas fa-mobile-alt"></i>
+                <span>RAHUL MOBILE</span>
+            </div>
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#products">Products</a></li>
+                <li><a href="#categories">Categories</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
-            <div class="cart-icon" onclick="openCart()">
-                <i class="fas fa-shopping-cart"></i>
-                <span class="cart-count" id="cartCount">0</span>
+            <div class="nav-right">
+                <div class="search-box">
+                    <input type="text" placeholder="Search products...">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="cart-icon" onclick="openCart()">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count" id="cartCount">0</span>
+                </div>
             </div>
         </nav>
     </header>
 
-    <!-- Hero -->
+    <!-- Hero Section -->
     <section class="hero" id="home">
-        <h1>Welcome to Rahul Mobile</h1>
-        <p>Best Mobile Shop in Dausa</p>
-        <p>📍 Vivekanand Colony, Panchayat Samiti Road, Dausa | 📞 +91 8764719889</p>
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Welcome to <span class="highlight">Rahul Mobile</span></h1>
+                <p>Your Trusted Mobile Store in Dausa - Latest Smartphones, Accessories & More at Best Prices!</p>
+                <div class="hero-features">
+                    <div class="hero-feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>100% Genuine Products</span>
+                    </div>
+                    <div class="hero-feature">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Warranty Assured</span>
+                    </div>
+                    <div class="hero-feature">
+                        <i class="fas fa-headset"></i>
+                        <span>Expert Support</span>
+                    </div>
+                </div>
+                <div class="hero-buttons">
+                    <button class="btn-primary" onclick="document.getElementById('products').scrollIntoView({behavior: 'smooth'})">
+                        <i class="fas fa-shopping-bag"></i>
+                        Shop Now
+                    </button>
+                    <button class="btn-secondary" onclick="document.getElementById('contact').scrollIntoView({behavior: 'smooth'})">
+                        <i class="fas fa-phone"></i>
+                        Contact Us
+                    </button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=600" alt="Latest Smartphones">
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section class="categories" id="categories">
+        <div class="section-header">
+            <h2>Shop by Category</h2>
+            <p>Explore our wide range of products</p>
+        </div>
+        <div class="category-grid">
+            <div class="category-card" onclick="filterProducts('Smartphones')">
+                <i class="fas fa-mobile-alt"></i>
+                <h3>Smartphones</h3>
+                <p>Latest models</p>
+            </div>
+            <div class="category-card" onclick="filterProducts('Accessories')">
+                <i class="fas fa-headphones"></i>
+                <h3>Accessories</h3>
+                <p>Premium quality</p>
+            </div>
+            <div class="category-card" onclick="filterProducts('Chargers')">
+                <i class="fas fa-charging-station"></i>
+                <h3>Chargers</h3>
+                <p>Fast charging</p>
+            </div>
+            <div class="category-card" onclick="filterProducts('Cases')">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Cases & Covers</h3>
+                <p>Protect your device</p>
+            </div>
+        </div>
     </section>
 
     <!-- Products -->
     <section class="products" id="products">
-        <h2>Our Products</h2>
+        <div class="section-header">
+            <h2>Featured Products</h2>
+            <p>Discover our best-selling items</p>
+        </div>
+        
+        <div class="filter-bar">
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterProducts('All')">All Products</button>
+                <button class="filter-btn" onclick="filterProducts('Smartphones')">Smartphones</button>
+                <button class="filter-btn" onclick="filterProducts('Accessories')">Accessories</button>
+            </div>
+            <select class="sort-select" onchange="sortProducts(this.value)">
+                <option value="default">Sort By</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="name">Name: A to Z</option>
+            </select>
+        </div>
+        
         <div class="product-grid" id="productGrid">
             <!-- Products will be loaded here -->
         </div>
     </section>
 
+    <!-- Features -->
+    <section class="features">
+        <div class="features-grid">
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="fas fa-shipping-fast"></i>
+                </div>
+                <h3>Fast Delivery</h3>
+                <p>Quick delivery across Dausa</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="fas fa-certificate"></i>
+                </div>
+                <h3>100% Genuine</h3>
+                <p>All products are authentic</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="fas fa-undo"></i>
+                </div>
+                <h3>Easy Returns</h3>
+                <p>Hassle-free return policy</p>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <h3>24/7 Support</h3>
+                <p>Always here to help you</p>
+            </div>
+        </div>
+    </section>
+
     <!-- Contact -->
     <section class="contact" id="contact">
-        <h2>Contact Us</h2>
-        <div class="contact-info">
-            <div class="contact-item">
-                <i class="fas fa-phone"></i>
-                <span>+91 8764719889</span>
+        <div class="section-header">
+            <h2>Get in Touch</h2>
+            <p>Visit us or reach out anytime</p>
+        </div>
+        <div class="contact-container">
+            <div class="contact-info-card">
+                <div class="contact-icon">
+                    <i class="fas fa-phone"></i>
+                </div>
+                <div class="contact-details">
+                    <h3>Call Us</h3>
+                    <p>+91 8764719889</p>
+                </div>
             </div>
-            <div class="contact-item">
-                <i class="fas fa-map-marker-alt"></i>
-                <span>Vivekanand Colony, Panchayat Samiti Road, Dausa, Rajasthan 303303</span>
+            <div class="contact-info-card">
+                <div class="contact-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <div class="contact-details">
+                    <h3>Visit Our Store</h3>
+                    <p>Vivekanand Colony, Panchayat Samiti Road, Dausa, Rajasthan 303303</p>
+                </div>
             </div>
-            <div class="contact-item">
-                <i class="fas fa-clock"></i>
-                <span>Mon-Sun: 9 AM - 9 PM</span>
+            <div class="contact-info-card">
+                <div class="contact-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="contact-details">
+                    <h3>Working Hours</h3>
+                    <p>Mon-Sun: 9:00 AM - 9:00 PM</p>
+                </div>
+            </div>
+            <div class="contact-info-card">
+                <div class="contact-icon">
+                    <i class="fas fa-envelope"></i>
+                </div>
+                <div class="contact-details">
+                    <h3>Email Us</h3>
+                    <p>info@rahulmobile.com</p>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2024 Rahul Mobile. All rights reserved.</p>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Rahul Mobile</h3>
+                <p>Your trusted mobile store in Dausa since 2020. We provide genuine products, expert service, and the best prices in town.</p>
+                <div class="social-links">
+                    <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-btn"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-btn"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul class="footer-links">
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#products">Products</a></li>
+                    <li><a href="#categories">Categories</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Customer Service</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Shipping Policy</a></li>
+                    <li><a href="#">Return Policy</a></li>
+                    <li><a href="#">Warranty Info</a></li>
+                    <li><a href="#">FAQs</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Contact Info</h3>
+                <ul class="footer-links">
+                    <li><i class="fas fa-phone"></i> +91 8764719889</li>
+                    <li><i class="fas fa-envelope"></i> info@rahulmobile.com</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Vivekanand Colony, Dausa</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Rahul Mobile. All rights reserved. | Designed with ❤️ in Dausa</p>
+        </div>
     </footer>
 
     <!-- Cart Modal -->
     <div id="cartModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Your Cart</h2>
+                <h2><i class="fas fa-shopping-cart"></i> Your Shopping Cart</h2>
                 <span class="close" onclick="closeCart()">&times;</span>
             </div>
-            <div id="cartItems"></div>
-            <div class="cart-total">
-                Total: ₹<span id="cartTotal">0</span>
+            <div class="cart-items-container" id="cartItems">
+                <!-- Cart items will be loaded here -->
             </div>
-            <button class="btn" onclick="checkout()">Checkout via WhatsApp</button>
+            <div class="cart-summary">
+                <div class="cart-total">
+                    <span>Total Amount:</span>
+                    <span>₹<span id="cartTotal">0</span></span>
+                </div>
+                <button class="checkout-btn" onclick="checkout()">
+                    <i class="fab fa-whatsapp"></i>
+                    Checkout via WhatsApp
+                </button>
+            </div>
         </div>
     </div>
 
     <script>
-        // Simple Product Data
+        // Enhanced Product Data
         const products = [
             {
                 id: 1,
-                name: "iPhone 15 Pro",
+                name: "iPhone 15 Pro Max",
                 price: 134900,
+                originalPrice: 159900,
+                discount: 16,
                 image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=400",
-                category: "Smartphones"
+                category: "Smartphones",
+                rating: 4.8,
+                reviews: 245,
+                badge: "Hot"
             },
             {
                 id: 2,
-                name: "Samsung Galaxy S24",
-                price: 79999,
+                name: "Samsung Galaxy S24 Ultra",
+                price: 124999,
+                originalPrice: 134999,
+                discount: 7,
                 image: "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=400",
-                category: "Smartphones"
+                category: "Smartphones",
+                rating: 4.7,
+                reviews: 189,
+                badge: "New"
             },
             {
                 id: 3,
-                name: "OnePlus 12",
+                name: "OnePlus 12 Pro",
                 price: 64999,
+                originalPrice: 69999,
+                discount: 7,
                 image: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?w=400",
-                category: "Smartphones"
+                category: "Smartphones",
+                rating: 4.6,
+                reviews: 156
             },
             {
                 id: 4,
-                name: "Wireless Earbuds",
-                price: 2999,
-                image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400",
-                category: "Accessories"
+                name: "Xiaomi 14 Pro",
+                price: 54999,
+                originalPrice: 59999,
+                discount: 8,
+                image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400",
+                category: "Smartphones",
+                rating: 4.5,
+                reviews: 134
             },
             {
                 id: 5,
-                name: "Fast Charger 65W",
-                price: 1499,
-                image: "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=400",
-                category: "Accessories"
+                name: "AirPods Pro (2nd Gen)",
+                price: 24900,
+                originalPrice: 26900,
+                discount: 7,
+                image: "https://images.unsplash.com/photo-1606841837239-c5a1a4a07af7?w=400",
+                category: "Accessories",
+                rating: 4.9,
+                reviews: 312,
+                badge: "Bestseller"
             },
             {
                 id: 6,
-                name: "Phone Case",
-                price: 499,
+                name: "Samsung Galaxy Buds2 Pro",
+                price: 14999,
+                originalPrice: 17999,
+                discount: 17,
+                image: "https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=400",
+                category: "Accessories",
+                rating: 4.6,
+                reviews: 198
+            },
+            {
+                id: 7,
+                name: "65W GaN Fast Charger",
+                price: 1999,
+                originalPrice: 2999,
+                discount: 33,
+                image: "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=400",
+                category: "Accessories",
+                rating: 4.7,
+                reviews: 267,
+                badge: "Sale"
+            },
+            {
+                id: 8,
+                name: "Premium Leather Case",
+                price: 1499,
+                originalPrice: 1999,
+                discount: 25,
                 image: "https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=400",
-                category: "Accessories"
+                category: "Accessories",
+                rating: 4.4,
+                reviews: 89
             }
         ];
 
         let cart = [];
+        let currentFilter = 'All';
 
         // Load Products
         function loadProducts() {
             const grid = document.getElementById('productGrid');
-            grid.innerHTML = products.map(product => `
+            const filteredProducts = currentFilter === 'All' 
+                ? products 
+                : products.filter(p => p.category === currentFilter);
+            
+            grid.innerHTML = filteredProducts.map(product => `
                 <div class="product-card">
-                    <img src="${product.image}" alt="${product.name}">
-                    <h3>${product.name}</h3>
-                    <div class="price">₹${product.price.toLocaleString()}</div>
-                    <button class="btn" onclick="addToCart(${product.id})">
-                        <i class="fas fa-cart-plus"></i> Add to Cart
-                    </button>
+                    ${product.badge ? `<div class="product-badge">${product.badge}</div>` : ''}
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}">
+                        <div class="product-overlay">
+                            <button class="overlay-btn" onclick="addToCart(${product.id})">
+                                <i class="fas fa-shopping-cart"></i>
+                            </button>
+                            <button class="overlay-btn">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                            <button class="overlay-btn">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">${product.category}</div>
+                        <div class="product-name">${product.name}</div>
+                        <div class="product-rating">
+                            <div class="stars">
+                                ${'<i class="fas fa-star"></i>'.repeat(Math.floor(product.rating))}
+                                ${product.rating % 1 ? '<i class="fas fa-star-half-alt"></i>' : ''}
+                            </div>
+                            <span class="rating-count">(${product.reviews})</span>
+                        </div>
+                        <div class="product-price">
+                            <span class="current-price">₹${product.price.toLocaleString()}</span>
+                            <span class="original-price">₹${product.originalPrice.toLocaleString()}</span>
+                            <span class="discount">${product.discount}% OFF</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn-add-cart" onclick="addToCart(${product.id})">
+                                <i class="fas fa-cart-plus"></i>
+                                Add to Cart
+                            </button>
+                            <button class="btn-wishlist">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             `).join('');
+        }
+
+        // Filter Products
+        function filterProducts(category) {
+            currentFilter = category;
+            loadProducts();
+            
+            // Update active filter button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        // Sort Products
+        function sortProducts(sortBy) {
+            if (sortBy === 'price-low') {
+                products.sort((a, b) => a.price - b.price);
+            } else if (sortBy === 'price-high') {
+                products.sort((a, b) => b.price - a.price);
+            } else if (sortBy === 'name') {
+                products.sort((a, b) => a.name.localeCompare(b.name));
+            }
+            loadProducts();
         }
 
         // Add to Cart
@@ -413,7 +1542,7 @@
             }
             
             updateCart();
-            showToast('Added to cart!');
+            showToast('✓ Added to cart successfully!');
         }
 
         // Update Cart
@@ -424,32 +1553,60 @@
             const cartItems = document.getElementById('cartItems');
             const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             
-            cartItems.innerHTML = cart.map(item => `
-                <div class="cart-item">
-                    <div>
-                        <strong>${item.name}</strong><br>
-                        ₹${item.price.toLocaleString()} × ${item.quantity}
+            if (cart.length === 0) {
+                cartItems.innerHTML = `
+                    <div class="empty-cart">
+                        <i class="fas fa-shopping-cart"></i>
+                        <p>Your cart is empty</p>
                     </div>
-                    <div>
-                        <button onclick="removeFromCart(${item.id})" style="background: #ef4444; color: white; border: none; padding: 0.5rem; border-radius: 5px; cursor: pointer;">
+                `;
+            } else {
+                cartItems.innerHTML = cart.map(item => `
+                    <div class="cart-item">
+                        <img src="${item.image}" alt="${item.name}" class="cart-item-image">
+                        <div class="cart-item-details">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-price">₹${item.price.toLocaleString()}</div>
+                            <div class="cart-item-quantity">
+                                <button class="qty-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
+                                <span>${item.quantity}</span>
+                                <button class="qty-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
+                            </div>
+                        </div>
+                        <button class="cart-item-remove" onclick="removeFromCart(${item.id})">
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>
-                </div>
-            `).join('');
+                `).join('');
+            }
             
             document.getElementById('cartTotal').textContent = total.toLocaleString();
+        }
+
+        // Update Quantity
+        function updateQuantity(productId, change) {
+            const item = cart.find(item => item.id === productId);
+            if (item) {
+                item.quantity += change;
+                if (item.quantity <= 0) {
+                    removeFromCart(productId);
+                } else {
+                    updateCart();
+                }
+            }
         }
 
         // Remove from Cart
         function removeFromCart(productId) {
             cart = cart.filter(item => item.id !== productId);
             updateCart();
+            showToast('✓ Item removed from cart');
         }
 
         // Open/Close Cart
         function openCart() {
             document.getElementById('cartModal').style.display = 'block';
+            updateCart();
         }
 
         function closeCart() {
@@ -459,20 +1616,27 @@
         // Checkout via WhatsApp
         function checkout() {
             if (cart.length === 0) {
-                alert('Your cart is empty!');
+                showToast('⚠ Your cart is empty!');
                 return;
             }
             
             const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
             let message = '🛒 *New Order from Website*\n\n';
+            message += '*RAHUL MOBILE - Order Details*\n';
+            message += '━━━━━━━━━━━━━━━━━━━━\n\n';
             
-            cart.forEach(item => {
-                message += `📱 ${item.name}\n`;
-                message += `   ₹${item.price.toLocaleString()} × ${item.quantity} = ₹${(item.price * item.quantity).toLocaleString()}\n\n`;
+            cart.forEach((item, index) => {
+                message += `${index + 1}. *${item.name}*\n`;
+                message += `   💰 Price: ₹${item.price.toLocaleString()}\n`;
+                message += `   📦 Quantity: ${item.quantity}\n`;
+                message += `   💵 Subtotal: ₹${(item.price * item.quantity).toLocaleString()}\n\n`;
             });
             
-            message += `💰 *Total: ₹${total.toLocaleString()}*\n\n`;
-            message += `Please confirm this order!`;
+            message += '━━━━━━━━━━━━━━━━━━━━\n';
+            message += `💰 *TOTAL: ₹${total.toLocaleString()}*\n\n`;
+            message += '📍 *Delivery Address:*\n';
+            message += 'Please provide your delivery address\n\n';
+            message += '✅ Please confirm this order!';
             
             const whatsappNumber = '918764719889';
             const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
@@ -483,23 +1647,13 @@
         // Toast Notification
         function showToast(message) {
             const toast = document.createElement('div');
-            toast.textContent = message;
-            toast.style.cssText = `
-                position: fixed;
-                bottom: 20px;
-                right: 20px;
-                background: #10b981;
-                color: white;
-                padding: 1rem 2rem;
-                border-radius: 5px;
-                z-index: 10000;
-                animation: slideIn 0.3s;
-            `;
+            toast.className = 'toast';
+            toast.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
             document.body.appendChild(toast);
             
             setTimeout(() => {
                 toast.remove();
-            }, 2000);
+            }, 3000);
         }
 
         // Close modal on outside click
