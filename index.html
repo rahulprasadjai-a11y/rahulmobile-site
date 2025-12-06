@@ -7,6 +7,7 @@
     <meta name="description" content="Shop latest smartphones, accessories, and electronics at Rahul Mobile Dausa. Best prices, genuine products, expert service.">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <style>
         * {
             margin: 0;
@@ -947,10 +948,15 @@
             margin-bottom: 1.5rem;
         }
         
+        .checkout-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-direction: column;
+        }
+        
         .checkout-btn {
             width: 100%;
             padding: 1rem;
-            background: linear-gradient(135deg, var(--success), #059669);
             color: white;
             border: none;
             border-radius: 10px;
@@ -964,9 +970,41 @@
             gap: 0.5rem;
         }
         
+        .checkout-btn.razorpay {
+            background: linear-gradient(135deg, #3395ff, #0066cc);
+        }
+        
+        .checkout-btn.whatsapp {
+            background: linear-gradient(135deg, var(--success), #059669);
+        }
+        
         .checkout-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.4);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .payment-divider {
+            text-align: center;
+            margin: 1rem 0;
+            position: relative;
+        }
+        
+        .payment-divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #ddd;
+        }
+        
+        .payment-divider span {
+            background: var(--light);
+            padding: 0 1rem;
+            position: relative;
+            color: #666;
+            font-size: 0.9rem;
         }
         
         .empty-cart {
@@ -1345,15 +1383,27 @@
                     <span>Total Amount:</span>
                     <span>₹<span id="cartTotal">0</span></span>
                 </div>
-                <button class="checkout-btn" onclick="checkout()">
-                    <i class="fab fa-whatsapp"></i>
-                    Checkout via WhatsApp
-                </button>
+                <div class="checkout-buttons">
+                    <button class="checkout-btn razorpay" onclick="checkoutRazorpay()">
+                        <i class="fas fa-credit-card"></i>
+                        Pay Online with Razorpay
+                    </button>
+                    <div class="payment-divider">
+                        <span>OR</span>
+                    </div>
+                    <button class="checkout-btn whatsapp" onclick="checkoutWhatsApp()">
+                        <i class="fab fa-whatsapp"></i>
+                        Order via WhatsApp
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
+        // Razorpay Configuration
+        const RAZORPAY_KEY = 'rzp_test_1DP5mmOlF5G5ag'; // TEST KEY - Replace with your key
+        
         // Enhanced Product Data
         const products = [
             {
@@ -1511,7 +1561,6 @@
             currentFilter = category;
             loadProducts();
             
-            // Update active filter button
             document.querySelectorAll('.filter-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
@@ -1613,8 +1662,85 @@
             document.getElementById('cartModal').style.display = 'none';
         }
 
-        // Checkout via WhatsApp
-        function checkout() {
+        // Razorpay Checkout
+        function checkoutRazorpay() {
+            if (cart.length === 0) {
+                showToast('⚠ Your cart is empty!');
+                return;
+            }
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            const options = {
+                key: RAZORPAY_KEY,
+                amount: total * 100, // Amount in paise
+                currency: 'INR',
+                name: 'RAHUL MOBILE',
+                description: 'Order Payment',
+                image: 'https://cdn-icons-png.flaticon.com/512/3659/3659898.png',
+                handler: function (response) {
+                    // Payment successful
+                    showToast('✓ Payment Successful! Order ID: ' + response.razorpay_payment_id);
+                    
+                    // Send order details via WhatsApp
+                    sendOrderConfirmation(response.razorpay_payment_id);
+                    
+                    // Clear cart
+                    cart = [];
+                    updateCart();
+                    closeCart();
+                },
+                prefill: {
+                    name: '',
+                    email: '',
+                    contact: ''
+                },
+                notes: {
+                    address: 'Rahul Mobile, Dausa'
+                },
+                theme: {
+                    color: '#667eea'
+                },
+                modal: {
+                    ondismiss: function() {
+                        showToast('⚠ Payment cancelled');
+                    }
+                }
+            };
+            
+            const rzp = new Razorpay(options);
+            rzp.open();
+        }
+
+        // Send Order Confirmation via WhatsApp
+        function sendOrderConfirmation(paymentId) {
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            let message = '✅ *PAYMENT SUCCESSFUL*\n\n';
+            message += '🛒 *RAHUL MOBILE - Order Confirmed*\n';
+            message += '━━━━━━━━━━━━━━━━━━━━\n\n';
+            message += `💳 *Payment ID:* ${paymentId}\n\n`;
+            
+            cart.forEach((item, index) => {
+                message += `${index + 1}. *${item.name}*\n`;
+                message += `   💰 Price: ₹${item.price.toLocaleString()}\n`;
+                message += `   📦 Quantity: ${item.quantity}\n`;
+                message += `   💵 Subtotal: ₹${(item.price * item.quantity).toLocaleString()}\n\n`;
+            });
+            
+            message += '━━━━━━━━━━━━━━━━━━━━\n';
+            message += `💰 *TOTAL PAID: ₹${total.toLocaleString()}*\n\n`;
+            message += '📍 *Delivery Address:*\n';
+            message += 'Please provide your delivery address\n\n';
+            message += '✅ Your order will be processed shortly!';
+            
+            const whatsappNumber = '918764719889';
+            const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+            
+            window.open(url, '_blank');
+        }
+
+        // WhatsApp Checkout
+        function checkoutWhatsApp() {
             if (cart.length === 0) {
                 showToast('⚠ Your cart is empty!');
                 return;
@@ -1636,6 +1762,7 @@
             message += `💰 *TOTAL: ₹${total.toLocaleString()}*\n\n`;
             message += '📍 *Delivery Address:*\n';
             message += 'Please provide your delivery address\n\n';
+            message += '💳 *Payment Method:* Cash on Delivery\n\n';
             message += '✅ Please confirm this order!';
             
             const whatsappNumber = '918764719889';
