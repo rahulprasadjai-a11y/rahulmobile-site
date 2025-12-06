@@ -1,0 +1,38 @@
+================================================================================
+COPY THIS EXACT LINE AND PASTE IT IN INDEX.HTML BEFORE </body>
+================================================================================
+
+    <!-- Emergency Fix for Buffering Issue -->
+    <script src="fix-buffering.js"></script>
+
+================================================================================
+WHERE TO PASTE:
+================================================================================
+
+1. Open: https://github.com/rahulprasadjai-a11y/rahulmobile-site/edit/main/index.html
+
+2. Press Ctrl+End (go to end of file)
+
+3. You'll see:
+        });
+    </script>
+</body>
+</html>
+
+4. Change to:
+        });
+    </script>
+    
+    <!-- Emergency Fix for Buffering Issue -->
+    <script src="fix-buffering.js"></script>
+    
+</body>
+</html>
+
+5. Click "Commit changes"
+
+6. DONE!
+
+================================================================================
+THAT'S IT! JUST COPY THE LINE ABOVE AND PASTE IT!
+================================================================================
