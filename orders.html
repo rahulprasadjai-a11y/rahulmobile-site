@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rahul Mobile - Order Management System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--light);
+            padding: 2rem;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .header h1 {
+            font-size: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .logo-img {
+            height: 50px;
+            width: auto;
+            background: white;
+            padding: 5px;
+            border-radius: 10px;
+        }
+        
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+        
+        .btn-primary {
+            background: white;
+            color: var(--primary);
+        }
+        
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+        
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+        
+        .stat-icon.pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+        
+        .stat-icon.processing {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+        
+        .stat-icon.completed {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+        
+        .stat-icon.cancelled {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+        
+        .stat-info h3 {
+            font-size: 2rem;
+            color: var(--dark);
+            margin-bottom: 0.3rem;
+        }
+        
+        .stat-info p {
+            color: #666;
+        }
+        
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            background: white;
+            padding: 1rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            padding: 0.8rem 1.5rem;
+            border: 2px solid transparent;
+            background: transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #666;
+            transition: all 0.3s;
+        }
+        
+        .tab.active {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .tab:hover {
+            border-color: var(--primary);
+        }
+        
+        .orders-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .orders-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 1rem;
+            flex: 1;
+            max-width: 500px;
+        }
+        
+        .search-box input {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            border: 2px solid var(--light);
+            border-radius: 10px;
+            font-size: 1rem;
+            outline: none;
+        }
+        
+        .search-box input:focus {
+            border-color: var(--primary);
+        }
+        
+        .orders-table {
+            width: 100%;
+            border-collapse: collapse;
+            overflow-x: auto;
+            display: block;
+        }
+        
+        .orders-table thead,
+        .orders-table tbody {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+        }
+        
+        .orders-table th {
+            background: var(--light);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .orders-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--light);
+        }
+        
+        .orders-table tbody tr:hover {
+            background: var(--light);
+        }
+        
+        .order-id {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .status-badge {
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        
+        .status-pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning);
+        }
+        
+        .status-processing {
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+        
+        .status-completed {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+        
+        .status-cancelled {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger);
+        }
+        
+        .action-btns {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-view {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-edit {
+            background: var(--warning);
+            color: white;
+        }
+        
+        .btn-delete {
+            background: var(--danger);
+            color: white;
+        }
+        
+        .btn-small:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            overflow-y: auto;
+        }
+        
+        .modal.show {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            margin: 2rem;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+        }
+        
+        .modal-close:hover {
+            color: var(--danger);
+        }
+        
+        .order-details {
+            margin-top: 2rem;
+        }
+        
+        .detail-section {
+            margin-bottom: 2rem;
+        }
+        
+        .detail-section h3 {
+            color: var(--dark);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light);
+        }
+        
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .detail-value {
+            color: var(--dark);
+            font-size: 1rem;
+        }
+        
+        .product-list {
+            list-style: none;
+        }
+        
+        .product-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem;
+            background: var(--light);
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: -1.7rem;
+            top: 12px;
+            width: 2px;
+            height: calc(100% - 12px);
+            background: var(--light);
+        }
+        
+        .timeline-item:last-child::after {
+            display: none;
+        }
+        
+        .timeline-time {
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        .timeline-status {
+            font-weight: 600;
+            color: var(--dark);
+            margin: 0.3rem 0;
+        }
+        
+        .invoice-section {
+            background: var(--light);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 2rem;
+        }
+        
+        .total-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-top: 1rem;
+        }
+        
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+        }
+        
+        .total-row.grand {
+            border-top: 2px solid var(--light);
+            margin-top: 0.5rem;
+            padding-top: 1rem;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--primary);
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #666;
+        }
+        
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--light);
+            margin-bottom: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .orders-table {
+                font-size: 0.85rem;
+            }
+            
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-btns {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>
+                <img src="https://nyc3.digitaloceanspaces.com/bhindi-drive/files/91452e7d-ceec-4f57-a0a3-13430b79756b/2025-12-06T10-57-37-151Z-ac43c268-chat-image-1765018657131-0.jpg" alt="Rahul Mobile" class="logo-img">
+                Order Management System
+            </h1>
+            <div class="header-actions">
+                <a href="/" class="btn btn-primary">
+                    <i class="fas fa-home"></i> Main Website
+                </a>
+                <button class="btn btn-success" onclick="createNewOrder()">
+                    <i class="fas fa-plus"></i> New Order
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon pending">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="pendingCount">0</h3>
+                    <p>Pending Orders</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon processing">
+                    <i class="fas fa-spinner"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="processingCount">0</h3>
+                    <p>Processing</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon completed">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="completedCount">0</h3>
+                    <p>Completed</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon cancelled">
+                    <i class="fas fa-times-circle"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 id="cancelledCount">0</h3>
+                    <p>Cancelled</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="filterOrders('all')">
+                <i class="fas fa-list"></i> All Orders
+            </button>
+            <button class="tab" onclick="filterOrders('pending')">
+                <i class="fas fa-clock"></i> Pending
+            </button>
+            <button class="tab" onclick="filterOrders('processing')">
+                <i class="fas fa-spinner"></i> Processing
+            </button>
+            <button class="tab" onclick="filterOrders('completed')">
+                <i class="fas fa-check-circle"></i> Completed
+            </button>
+            <button class="tab" onclick="filterOrders('cancelled')">
+                <i class="fas fa-times-circle"></i> Cancelled
+            </button>
+        </div>
+
+        <!-- Orders Section -->
+        <div class="orders-section">
+            <div class="orders-header">
+                <h2>Orders List</h2>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Search by Order ID, Customer Name, Phone...">
+                    <button class="btn btn-primary" onclick="searchOrders()">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div style="overflow-x: auto;">
+                <table class="orders-table" id="ordersTable">
+                    <thead>
+                        <tr>
+                            <th style="width: 10%;">Order ID</th>
+                            <th style="width: 15%;">Customer</th>
+                            <th style="width: 12%;">Phone</th>
+                            <th style="width: 20%;">Product</th>
+                            <th style="width: 10%;">Amount</th>
+                            <th style="width: 10%;">Status</th>
+                            <th style="width: 13%;">Date</th>
+                            <th style="width: 10%;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ordersBody">
+                        <!-- Orders will be loaded here -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <i class="fas fa-inbox"></i>
+                <h3>No Orders Found</h3>
+                <p>Start by creating a new order</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Details Modal -->
+    <div class="modal" id="orderModal">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal()">&times;</span>
+            <div id="orderDetailsContent">
+                <!-- Order details will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample orders data
+        let orders = [
+            {
+                id: 'RM001',
+                customer: 'Amit Kumar',
+                phone: '+91 98765 43210',
+                email: 'amit@example.com',
+                address: 'Main Market, Dausa, Rajasthan - 303303',
+                products: [
+                    { name: 'Samsung Galaxy S24 Ultra', quantity: 1, price: 124999 }
+                ],
+                subtotal: 124999,
+                tax: 12500,
+                shipping: 0,
+                total: 137499,
+                status: 'processing',
+                paymentMethod: 'UPI',
+                date: '2024-12-06 10:30 AM',
+                timeline: [
+                    { status: 'Order Placed', time: '2024-12-06 10:30 AM' },
+                    { status: 'Payment Confirmed', time: '2024-12-06 10:32 AM' },
+                    { status: 'Processing', time: '2024-12-06 11:00 AM' }
+                ]
+            },
+            {
+                id: 'RM002',
+                customer: 'Priya Sharma',
+                phone: '+91 87654 32109',
+                email: 'priya@example.com',
+                address: 'Civil Lines, Dausa, Rajasthan - 303303',
+                products: [
+                    { name: 'iPhone 15 Pro Max', quantity: 1, price: 159999 }
+                ],
+                subtotal: 159999,
+                tax: 16000,
+                shipping: 0,
+                total: 175999,
+                status: 'completed',
+                paymentMethod: 'Card',
+                date: '2024-12-05 02:15 PM',
+                timeline: [
+                    { status: 'Order Placed', time: '2024-12-05 02:15 PM' },
+                    { status: 'Payment Confirmed', time: '2024-12-05 02:17 PM' },
+                    { status: 'Processing', time: '2024-12-05 03:00 PM' },
+                    { status: 'Shipped', time: '2024-12-05 05:30 PM' },
+                    { status: 'Delivered', time: '2024-12-06 11:00 AM' }
+                ]
+            },
+            {
+                id: 'RM003',
+                customer: 'Rajesh Verma',
+                phone: '+91 76543 21098',
+                email: 'rajesh@example.com',
+                address: 'Station Road, Dausa, Rajasthan - 303303',
+                products: [
+                    { name: 'Redmi Note 13 Pro+', quantity: 1, price: 28999 },
+                    { name: 'Premium Earbuds Pro', quantity: 1, price: 2999 }
+                ],
+                subtotal: 31998,
+                tax: 3200,
+                shipping: 0,
+                total: 35198,
+                status: 'pending',
+                paymentMethod: 'COD',
+                date: '2024-12-06 03:45 PM',
+                timeline: [
+                    { status: 'Order Placed', time: '2024-12-06 03:45 PM' }
+                ]
+            }
+        ];
+
+        // Initialize
+        window.addEventListener('load', () => {
+            loadOrders();
+            updateStats();
+        });
+
+        function loadOrders(filter = 'all') {
+            const tbody = document.getElementById('ordersBody');
+            const emptyState = document.getElementById('emptyState');
+            
+            let filteredOrders = orders;
+            if (filter !== 'all') {
+                filteredOrders = orders.filter(order => order.status === filter);
+            }
+            
+            if (filteredOrders.length === 0) {
+                tbody.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            emptyState.style.display = 'none';
+            
+            tbody.innerHTML = filteredOrders.map(order => `
+                <tr>
+                    <td><span class="order-id">#${order.id}</span></td>
+                    <td>${order.customer}</td>
+                    <td>${order.phone}</td>
+                    <td>${order.products[0].name}${order.products.length > 1 ? ` +${order.products.length - 1}` : ''}</td>
+                    <td>₹${order.total.toLocaleString()}</td>
+                    <td><span class="status-badge status-${order.status}">${order.status.toUpperCase()}</span></td>
+                    <td>${order.date}</td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="btn-small btn-view" onclick="viewOrder('${order.id}')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn-small btn-edit" onclick="updateOrderStatus('${order.id}')">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn-small btn-delete" onclick="deleteOrder('${order.id}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function updateStats() {
+            const pending = orders.filter(o => o.status === 'pending').length;
+            const processing = orders.filter(o => o.status === 'processing').length;
+            const completed = orders.filter(o => o.status === 'completed').length;
+            const cancelled = orders.filter(o => o.status === 'cancelled').length;
+            
+            document.getElementById('pendingCount').textContent = pending;
+            document.getElementById('processingCount').textContent = processing;
+            document.getElementById('completedCount').textContent = completed;
+            document.getElementById('cancelledCount').textContent = cancelled;
+        }
+
+        function filterOrders(status) {
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+            loadOrders(status);
+        }
+
+        function searchOrders() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filteredOrders = orders.filter(order => 
+                order.id.toLowerCase().includes(searchTerm) ||
+                order.customer.toLowerCase().includes(searchTerm) ||
+                order.phone.includes(searchTerm)
+            );
+            
+            const tbody = document.getElementById('ordersBody');
+            const emptyState = document.getElementById('emptyState');
+            
+            if (filteredOrders.length === 0) {
+                tbody.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+            
+            emptyState.style.display = 'none';
+            tbody.innerHTML = filteredOrders.map(order => `
+                <tr>
+                    <td><span class="order-id">#${order.id}</span></td>
+                    <td>${order.customer}</td>
+                    <td>${order.phone}</td>
+                    <td>${order.products[0].name}${order.products.length > 1 ? ` +${order.products.length - 1}` : ''}</td>
+                    <td>₹${order.total.toLocaleString()}</td>
+                    <td><span class="status-badge status-${order.status}">${order.status.toUpperCase()}</span></td>
+                    <td>${order.date}</td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="btn-small btn-view" onclick="viewOrder('${order.id}')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            <button class="btn-small btn-edit" onclick="updateOrderStatus('${order.id}')">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn-small btn-delete" onclick="deleteOrder('${order.id}')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function viewOrder(orderId) {
+            const order = orders.find(o => o.id === orderId);
+            if (!order) return;
+            
+            const content = `
+                <h2>Order Details - #${order.id}</h2>
+                
+                <div class="order-details">
+                    <div class="detail-section">
+                        <h3><i class="fas fa-user"></i> Customer Information</h3>
+                        <div class="detail-grid">
+                            <div class="detail-item">
+                                <span class="detail-label">Name</span>
+                                <span class="detail-value">${order.customer}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Phone</span>
+                                <span class="detail-value">${order.phone}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Email</span>
+                                <span class="detail-value">${order.email}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Address</span>
+                                <span class="detail-value">${order.address}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h3><i class="fas fa-shopping-bag"></i> Order Information</h3>
+                        <div class="detail-grid">
+                            <div class="detail-item">
+                                <span class="detail-label">Order ID</span>
+                                <span class="detail-value">#${order.id}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Order Date</span>
+                                <span class="detail-value">${order.date}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Payment Method</span>
+                                <span class="detail-value">${order.paymentMethod}</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">Status</span>
+                                <span class="status-badge status-${order.status}">${order.status.toUpperCase()}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h3><i class="fas fa-box"></i> Products</h3>
+                        <ul class="product-list">
+                            ${order.products.map(product => `
+                                <li class="product-item">
+                                    <div>
+                                        <strong>${product.name}</strong>
+                                        <br>
+                                        <small>Quantity: ${product.quantity}</small>
+                                    </div>
+                                    <div>₹${product.price.toLocaleString()}</div>
+                                </li>
+                            `).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div class="invoice-section">
+                        <h3><i class="fas fa-file-invoice"></i> Invoice Summary</h3>
+                        <div class="total-section">
+                            <div class="total-row">
+                                <span>Subtotal</span>
+                                <span>₹${order.subtotal.toLocaleString()}</span>
+                            </div>
+                            <div class="total-row">
+                                <span>Tax (GST)</span>
+                                <span>₹${order.tax.toLocaleString()}</span>
+                            </div>
+                            <div class="total-row">
+                                <span>Shipping</span>
+                                <span>${order.shipping === 0 ? 'FREE' : '₹' + order.shipping.toLocaleString()}</span>
+                            </div>
+                            <div class="total-row grand">
+                                <span>Grand Total</span>
+                                <span>₹${order.total.toLocaleString()}</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h3><i class="fas fa-history"></i> Order Timeline</h3>
+                        <div class="timeline">
+                            ${order.timeline.map(item => `
+                                <div class="timeline-item">
+                                    <div class="timeline-status">${item.status}</div>
+                                    <div class="timeline-time">${item.time}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 1rem; margin-top: 2rem; flex-wrap: wrap;">
+                        <button class="btn btn-primary" onclick="printInvoice('${order.id}')">
+                            <i class="fas fa-print"></i> Print Invoice
+                        </button>
+                        <button class="btn btn-success" onclick="sendWhatsApp('${order.id}')">
+                            <i class="fab fa-whatsapp"></i> Send to WhatsApp
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('orderDetailsContent').innerHTML = content;
+            document.getElementById('orderModal').classList.add('show');
+        }
+
+        function closeModal() {
+            document.getElementById('orderModal').classList.remove('show');
+        }
+
+        function updateOrderStatus(orderId) {
+            const order = orders.find(o => o.id === orderId);
+            if (!order) return;
+            
+            const statuses = ['pending', 'processing', 'completed', 'cancelled'];
+            const currentIndex = statuses.indexOf(order.status);
+            const nextStatus = statuses[(currentIndex + 1) % statuses.length];
+            
+            if (confirm(`Update order #${orderId} status to ${nextStatus}?`)) {
+                order.status = nextStatus;
+                order.timeline.push({
+                    status: nextStatus.charAt(0).toUpperCase() + nextStatus.slice(1),
+                    time: new Date().toLocaleString()
+                });
+                loadOrders();
+                updateStats();
+                alert(`Order #${orderId} updated to ${nextStatus}!`);
+            }
+        }
+
+        function deleteOrder(orderId) {
+            if (confirm(`Are you sure you want to delete order #${orderId}?`)) {
+                orders = orders.filter(o => o.id !== orderId);
+                loadOrders();
+                updateStats();
+                alert(`Order #${orderId} deleted successfully!`);
+            }
+        }
+
+        function createNewOrder() {
+            alert('Redirecting to main website to create order...');
+            window.location.href = '/';
+        }
+
+        function printInvoice(orderId) {
+            const order = orders.find(o => o.id === orderId);
+            if (!order) return;
+            
+            const printWindow = window.open('', '', 'height=600,width=800');
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>Invoice - ${order.id}</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; padding: 20px; }
+                        .header { text-align: center; margin-bottom: 30px; }
+                        .invoice-details { margin-bottom: 20px; }
+                        table { width: 100%; border-collapse: collapse; }
+                        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+                        th { background: #f4f4f4; }
+                        .total { font-weight: bold; font-size: 1.2em; }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <h1>RAHUL MOBILE</h1>
+                        <p>Dausa, Rajasthan | +91 85020 19889</p>
+                        <h2>INVOICE</h2>
+                    </div>
+                    <div class="invoice-details">
+                        <p><strong>Invoice No:</strong> ${order.id}</p>
+                        <p><strong>Date:</strong> ${order.date}</p>
+                        <p><strong>Customer:</strong> ${order.customer}</p>
+                        <p><strong>Phone:</strong> ${order.phone}</p>
+                        <p><strong>Address:</strong> ${order.address}</p>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${order.products.map(p => `
+                                <tr>
+                                    <td>${p.name}</td>
+                                    <td>${p.quantity}</td>
+                                    <td>₹${p.price.toLocaleString()}</td>
+                                    <td>₹${(p.price * p.quantity).toLocaleString()}</td>
+                                </tr>
+                            `).join('')}
+                            <tr>
+                                <td colspan="3" style="text-align: right;"><strong>Subtotal:</strong></td>
+                                <td>₹${order.subtotal.toLocaleString()}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="text-align: right;"><strong>Tax (GST):</strong></td>
+                                <td>₹${order.tax.toLocaleString()}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="3" style="text-align: right;"><strong>Shipping:</strong></td>
+                                <td>${order.shipping === 0 ? 'FREE' : '₹' + order.shipping.toLocaleString()}</td>
+                            </tr>
+                            <tr class="total">
+                                <td colspan="3" style="text-align: right;">GRAND TOTAL:</td>
+                                <td>₹${order.total.toLocaleString()}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div style="margin-top: 30px; text-align: center;">
+                        <p>Thank you for your business!</p>
+                        <p>For support: info@rahulmobile.in | +91 85020 19889</p>
+                    </div>
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        function sendWhatsApp(orderId) {
+            const order = orders.find(o => o.id === orderId);
+            if (!order) return;
+            
+            const message = `*RAHUL MOBILE - Order Confirmation*\n\nOrder ID: #${order.id}\nDate: ${order.date}\n\n*Customer Details:*\nName: ${order.customer}\nPhone: ${order.phone}\n\n*Products:*\n${order.products.map(p => `- ${p.name} (Qty: ${p.quantity}) - ₹${p.price.toLocaleString()}`).join('\n')}\n\n*Payment Summary:*\nSubtotal: ₹${order.subtotal.toLocaleString()}\nTax: ₹${order.tax.toLocaleString()}\nShipping: ${order.shipping === 0 ? 'FREE' : '₹' + order.shipping.toLocaleString()}\n*Total: ₹${order.total.toLocaleString()}*\n\nPayment Method: ${order.paymentMethod}\nStatus: ${order.status.toUpperCase()}\n\nThank you for shopping with Rahul Mobile!`;
+            
+            window.open(`https://wa.me/${order.phone.replace(/\s/g, '')}?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        document.getElementById('orderModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
