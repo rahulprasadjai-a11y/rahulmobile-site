@@ -1337,6 +1337,82 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
+        /* Promotional Banner */
+.promo-banner {
+    background: linear-gradient(90deg, #ff6b6b 0%, #ff8e53 100%);
+    color: white;
+    padding: 1rem 0;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    animation: slideDown 0.5s ease-out;
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.promo-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    align-items: center;
+}
+
+.promo-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem;
+    border-radius: 10px;
+    transition: all 0.3s;
+}
+
+.promo-item:hover {
+    background: rgba(255,255,255,0.1);
+    transform: translateY(-3px);
+}
+
+.promo-item i {
+    font-size: 2.5rem;
+    opacity: 0.9;
+}
+
+.promo-item div {
+    display: flex;
+    flex-direction: column;
+}
+
+.promo-item strong {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+}
+
+.promo-item span {
+    font-size: 0.85rem;
+    opacity: 0.9;
+}
+
+.highlight-promo {
+    background: rgba(255,255,255,0.15);
+    animation: pulse 2s infinite;
+    border: 2px solid rgba(255,255,255,0.3);
+}
+
+@media (max-width: 768px) {
+    .promo-content {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .promo-item {
+        justify-content: center;
+        text-align: center;
+    }
+}
     </style>
 </head>
 <body>
