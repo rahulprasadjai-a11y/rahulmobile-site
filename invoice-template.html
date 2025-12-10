@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice - RAHUL MOBILE</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+
+        .invoice-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 3px solid #8b5cf6;
+        }
+
+        .company-info {
+            flex: 1;
+        }
+
+        .company-logo {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .company-name {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1a1a1a;
+            margin-bottom: 5px;
+        }
+
+        .company-tagline {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+
+        .company-details {
+            color: #666;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .invoice-meta {
+            text-align: right;
+        }
+
+        .invoice-title {
+            font-size: 32px;
+            font-weight: bold;
+            color: #8b5cf6;
+            margin-bottom: 10px;
+        }
+
+        .invoice-number {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .invoice-date {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .invoice-status {
+            display: inline-block;
+            padding: 6px 16px;
+            background: #10b981;
+            color: white;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .billing-section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 40px;
+            gap: 40px;
+        }
+
+        .billing-info {
+            flex: 1;
+        }
+
+        .billing-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #8b5cf6;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        .billing-details {
+            background: #f9fafb;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #8b5cf6;
+        }
+
+        .billing-name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .billing-address {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .items-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        .items-table thead {
+            background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+            color: white;
+        }
+
+        .items-table th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .items-table th:last-child,
+        .items-table td:last-child {
+            text-align: right;
+        }
+
+        .items-table tbody tr {
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .items-table tbody tr:hover {
+            background: #f9fafb;
+        }
+
+        .items-table td {
+            padding: 15px;
+            color: #374151;
+            font-size: 14px;
+        }
+
+        .item-name {
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .totals-section {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 40px;
+        }
+
+        .totals-table {
+            width: 350px;
+        }
+
+        .totals-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .totals-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .totals-value {
+            color: #1a1a1a;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .grand-total {
+            background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .grand-total .totals-label,
+        .grand-total .totals-value {
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .payment-info {
+            background: #f0fdf4;
+            border: 2px solid #10b981;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .payment-title {
+            color: #10b981;
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .payment-details {
+            color: #166534;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .notes-section {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 4px;
+        }
+
+        .notes-title {
+            color: #92400e;
+            font-weight: 600;
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .notes-content {
+            color: #78350f;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .footer {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 2px solid #e5e7eb;
+            color: #666;
+            font-size: 13px;
+        }
+
+        .footer-highlight {
+            color: #8b5cf6;
+            font-weight: 600;
+        }
+
+        .print-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .print-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.5);
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+
+            .invoice-container {
+                box-shadow: none;
+                padding: 20px;
+            }
+
+            .print-button {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .invoice-container {
+                padding: 20px;
+            }
+
+            .invoice-header {
+                flex-direction: column;
+            }
+
+            .invoice-meta {
+                text-align: left;
+                margin-top: 20px;
+            }
+
+            .billing-section {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .totals-table {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-container">
+        <!-- Header -->
+        <div class="invoice-header">
+            <div class="company-info">
+                <div class="company-logo">RM</div>
+                <div class="company-name">RAHUL MOBILE</div>
+                <div class="company-tagline">Your Trusted Mobile Partner</div>
+                <div class="company-details">
+                    📍 Vivekanand Colony, Dausa, Rajasthan<br>
+                    📞 +91 8764719889<br>
+                    ✉️ limaxdistributor@gmail.com<br>
+                    🌐 www.rahulmobile.com
+                </div>
+            </div>
+            <div class="invoice-meta">
+                <div class="invoice-title">INVOICE</div>
+                <div class="invoice-number" id="invoiceNumber">INV-2025-0001</div>
+                <div class="invoice-date" id="invoiceDate">Date: 10 Dec 2025</div>
+                <div class="invoice-status">PAID</div>
+            </div>
+        </div>
+
+        <!-- Billing Information -->
+        <div class="billing-section">
+            <div class="billing-info">
+                <div class="billing-title">Bill To</div>
+                <div class="billing-details">
+                    <div class="billing-name" id="customerName">Customer Name</div>
+                    <div class="billing-address" id="customerAddress">
+                        Customer Address<br>
+                        City, State - PIN<br>
+                        Phone: +91 XXXXXXXXXX<br>
+                        Email: customer@email.com
+                    </div>
+                </div>
+            </div>
+            <div class="billing-info">
+                <div class="billing-title">Payment Details</div>
+                <div class="billing-details">
+                    <div class="billing-name">Razorpay Payment</div>
+                    <div class="billing-address">
+                        <strong>Payment ID:</strong> <span id="paymentId">pay_XXXXXXXXXX</span><br>
+                        <strong>Method:</strong> <span id="paymentMethod">UPI/Card/NetBanking</span><br>
+                        <strong>Status:</strong> <span style="color: #10b981; font-weight: 600;">Success</span><br>
+                        <strong>Date:</strong> <span id="paymentDate">10 Dec 2025, 02:30 PM</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Items Table -->
+        <table class="items-table">
+            <thead>
+                <tr>
+                    <th style="width: 50px;">#</th>
+                    <th>Product Description</th>
+                    <th style="width: 100px;">Qty</th>
+                    <th style="width: 120px;">Price</th>
+                    <th style="width: 120px;">Amount</th>
+                </tr>
+            </thead>
+            <tbody id="itemsTableBody">
+                <tr>
+                    <td>1</td>
+                    <td>
+                        <div class="item-name">iPhone 15 Pro Max</div>
+                        <div style="color: #666; font-size: 12px;">256GB, Deep Purple</div>
+                    </td>
+                    <td>1</td>
+                    <td>₹1,34,900</td>
+                    <td>₹1,34,900</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>
+                        <div class="item-name">Samsung Galaxy S24 Ultra</div>
+                        <div style="color: #666; font-size: 12px;">512GB, Titanium Black</div>
+                    </td>
+                    <td>1</td>
+                    <td>₹1,24,999</td>
+                    <td>₹1,24,999</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Totals -->
+        <div class="totals-section">
+            <div class="totals-table">
+                <div class="totals-row">
+                    <div class="totals-label">Subtotal</div>
+                    <div class="totals-value" id="subtotal">₹2,59,899</div>
+                </div>
+                <div class="totals-row">
+                    <div class="totals-label">Discount</div>
+                    <div class="totals-value" id="discount">- ₹0</div>
+                </div>
+                <div class="totals-row">
+                    <div class="totals-label">GST (18%)</div>
+                    <div class="totals-value" id="gst">₹46,782</div>
+                </div>
+                <div class="grand-total">
+                    <div class="totals-row" style="border: none;">
+                        <div class="totals-label">GRAND TOTAL</div>
+                        <div class="totals-value" id="grandTotal">₹3,06,681</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Info -->
+        <div class="payment-info">
+            <div class="payment-title">
+                ✅ Payment Received Successfully
+            </div>
+            <div class="payment-details">
+                Thank you for your payment! Your order has been confirmed and will be processed shortly.<br>
+                <strong>Transaction ID:</strong> <span id="transactionId">TXN123456789</span>
+            </div>
+        </div>
+
+        <!-- Notes -->
+        <div class="notes-section">
+            <div class="notes-title">📝 Important Notes:</div>
+            <div class="notes-content">
+                • All products come with manufacturer warranty<br>
+                • 7-day replacement policy for defective items<br>
+                • Original invoice must be presented for warranty claims<br>
+                • For support, contact us at +91 8764719889 or limaxdistributor@gmail.com
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Thank you for shopping with <span class="footer-highlight">RAHUL MOBILE</span>!</p>
+            <p style="margin-top: 10px; font-size: 12px;">
+                This is a computer-generated invoice and does not require a signature.
+            </p>
+            <p style="margin-top: 15px; color: #8b5cf6; font-weight: 600;">
+                🌟 Designed with ❤️ in Dausa, Rajasthan
+            </p>
+        </div>
+    </div>
+
+    <button class="print-button" onclick="window.print()">
+        🖨️ Print Invoice
+    </button>
+
+    <script>
+        // Auto-populate from URL parameters
+        window.addEventListener('DOMContentLoaded', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            
+            // Invoice details
+            if (urlParams.get('invoiceNumber')) {
+                document.getElementById('invoiceNumber').textContent = urlParams.get('invoiceNumber');
+            }
+            
+            if (urlParams.get('invoiceDate')) {
+                document.getElementById('invoiceDate').textContent = 'Date: ' + urlParams.get('invoiceDate');
+            }
+            
+            // Customer details
+            if (urlParams.get('customerName')) {
+                document.getElementById('customerName').textContent = urlParams.get('customerName');
+            }
+            
+            if (urlParams.get('customerAddress')) {
+                document.getElementById('customerAddress').innerHTML = urlParams.get('customerAddress').replace(/\n/g, '<br>');
+            }
+            
+            // Payment details
+            if (urlParams.get('paymentId')) {
+                document.getElementById('paymentId').textContent = urlParams.get('paymentId');
+                document.getElementById('transactionId').textContent = urlParams.get('paymentId');
+            }
+            
+            if (urlParams.get('paymentMethod')) {
+                document.getElementById('paymentMethod').textContent = urlParams.get('paymentMethod');
+            }
+            
+            if (urlParams.get('paymentDate')) {
+                document.getElementById('paymentDate').textContent = urlParams.get('paymentDate');
+            }
+            
+            // Items (passed as JSON)
+            if (urlParams.get('items')) {
+                try {
+                    const items = JSON.parse(decodeURIComponent(urlParams.get('items')));
+                    populateItems(items);
+                } catch (e) {
+                    console.error('Error parsing items:', e);
+                }
+            }
+            
+            // Totals
+            if (urlParams.get('subtotal')) {
+                document.getElementById('subtotal').textContent = '₹' + parseInt(urlParams.get('subtotal')).toLocaleString();
+            }
+            
+            if (urlParams.get('discount')) {
+                document.getElementById('discount').textContent = '- ₹' + parseInt(urlParams.get('discount')).toLocaleString();
+            }
+            
+            if (urlParams.get('gst')) {
+                document.getElementById('gst').textContent = '₹' + parseInt(urlParams.get('gst')).toLocaleString();
+            }
+            
+            if (urlParams.get('grandTotal')) {
+                document.getElementById('grandTotal').textContent = '₹' + parseInt(urlParams.get('grandTotal')).toLocaleString();
+            }
+        });
+        
+        function populateItems(items) {
+            const tbody = document.getElementById('itemsTableBody');
+            tbody.innerHTML = '';
+            
+            items.forEach((item, index) => {
+                const row = `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>
+                            <div class="item-name">${item.name}</div>
+                            ${item.description ? `<div style="color: #666; font-size: 12px;">${item.description}</div>` : ''}
+                        </td>
+                        <td>${item.quantity}</td>
+                        <td>₹${parseInt(item.price).toLocaleString()}</td>
+                        <td>₹${parseInt(item.price * item.quantity).toLocaleString()}</td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+    </script>
+</body>
+</html>
