@@ -1,0 +1,54 @@
+<!-- 
+═══════════════════════════════════════════════════════════════
+    RAHUL MOBILE - ENHANCED FEATURES INTEGRATION
+    
+    📋 INSTRUCTIONS:
+    1. Open index.html in editor
+    2. Find the line: </body>
+    3. PASTE THIS ENTIRE CODE just BEFORE </body>
+    4. Save and commit
+    
+    ✅ WHAT THIS DOES:
+    - Loads enhanced-features.js
+    - Enables customer info form BEFORE payment
+    - Customer fills details FIRST, then payment opens
+═══════════════════════════════════════════════════════════════
+-->
+
+<!-- Load Enhanced Features Script -->
+<script src="enhanced-features.js"></script>
+
+<!-- Override Checkout to Use Customer Info Form First -->
+<script>
+    // Save original checkout function
+    const originalCheckoutRazorpay = checkoutRazorpay;
+    
+    // Override with enhanced version
+    checkoutRazorpay = function() {
+        // Check if enhanced features loaded
+        if (typeof enhancedCheckoutRazorpay !== 'undefined') {
+            // Use enhanced checkout: Customer Info FIRST → Payment SECOND
+            enhancedCheckoutRazorpay();
+        } else {
+            // Fallback to original if script not loaded
+            console.warn('Enhanced features not loaded, using original checkout');
+            originalCheckoutRazorpay();
+        }
+    };
+    
+    // Log success
+    console.log('✅ Enhanced Checkout Enabled');
+    console.log('📋 Flow: Customer Details FIRST → Payment SECOND');
+</script>
+
+<!-- 
+═══════════════════════════════════════════════════════════════
+    END OF INTEGRATION CODE
+    
+    🎉 DONE! Your website now has:
+    ✅ Customer info form before payment
+    ✅ Complete delivery address collection
+    ✅ Phone & PIN validation
+    ✅ Professional 2-step checkout
+═══════════════════════════════════════════════════════════════
+-->
