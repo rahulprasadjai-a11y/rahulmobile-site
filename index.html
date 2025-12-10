@@ -2179,5 +2179,18 @@
         });
     });
     </script>
+    <!-- Enhanced Features -->
+<script src="enhanced-features.js"></script>
+<script>
+const originalCheckoutRazorpay = checkoutRazorpay;
+checkoutRazorpay = function() {
+    if (typeof enhancedCheckoutRazorpay !== 'undefined') {
+        enhancedCheckoutRazorpay();
+    } else {
+        originalCheckoutRazorpay();
+    }
+};
+console.log('✅ Enhanced Checkout Enabled');
+</script>
 </body>
 </html>
