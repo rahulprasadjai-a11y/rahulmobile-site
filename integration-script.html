@@ -1,0 +1,24 @@
+<!-- 
+    RAHUL MOBILE - Enhanced Features Integration
+    Copy this code and paste it in index.html BEFORE </body> tag
+-->
+
+<!-- Load Enhanced Features Script -->
+<script src="enhanced-features.js"></script>
+
+<!-- Override Checkout Functions -->
+<script>
+    // Override Razorpay Checkout to use Customer Info Form First
+    const originalCheckoutRazorpay = checkoutRazorpay;
+    checkoutRazorpay = function() {
+        // Use enhanced checkout with customer info form
+        if (typeof enhancedCheckoutRazorpay !== 'undefined') {
+            enhancedCheckoutRazorpay();
+        } else {
+            // Fallback to original if enhanced not loaded
+            originalCheckoutRazorpay();
+        }
+    };
+    
+    console.log('✅ Enhanced checkout enabled: Customer Details FIRST → Payment SECOND');
+</script>
